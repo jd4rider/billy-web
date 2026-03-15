@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# Billy.sh — Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Marketing and sales website for **Billy.sh**, built with React + TypeScript, hosted on GitHub Pages.
+
+## Planned Sections
+- Hero / landing
+- Features overview
+- Pricing (Free tier, Pro one-time, SaaS monthly)
+- Download / Buy (Shopify integration)
+- Docs & Quick Start
+- FAQ
+
+---
+
+## Development (Create React App)
 
 ## Available Scripts
 
