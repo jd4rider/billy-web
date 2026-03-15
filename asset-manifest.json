@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/billy-web/static/css/main.5e9158fa.css",
+    "main.js": "/billy-web/static/js/main.0e9b55cf.js",
+    "index.html": "/billy-web/index.html",
+    "main.5e9158fa.css.map": "/billy-web/static/css/main.5e9158fa.css.map",
+    "main.0e9b55cf.js.map": "/billy-web/static/js/main.0e9b55cf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5e9158fa.css",
+    "static/js/main.0e9b55cf.js"
+  ]
+}
