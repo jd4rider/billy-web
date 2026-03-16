@@ -16,10 +16,12 @@ interface Feature {
 const features: Feature[] = [
   { icon: '🔒', title: 'Fully Private', desc: 'All AI runs on your machine via Ollama. No data ever leaves your computer.' },
   { icon: '💸', title: 'No Subscription', desc: 'Pay once for Pro or use the free tier forever. No monthly fees, no API keys.' },
+  { icon: '🤖', title: 'Agentic Mode', desc: 'Billy proposes shell commands and runs them with your approval. Reads output and self-debugs until it works.' },
   { icon: '🧠', title: 'Memory System', desc: 'Billy learns about you over time. Just say "remember that..." — it saves automatically.' },
   { icon: '📜', title: 'Session History', desc: 'Full conversation history with an interactive session picker. Resume any chat with /history.' },
   { icon: '⌨️', title: 'Command Picker', desc: 'Type / to open a live-filtered command popup. Navigate with arrow keys, execute with Enter.' },
   { icon: '🔄', title: 'Model Switching', desc: 'Switch between any Ollama model on the fly. Pull new models with /pull without leaving the app.' },
+  { icon: '📊', title: 'Progress Bars', desc: 'Spring-physics progress bars and collapsible command output — click or Ctrl+X to expand.' },
 ];
 
 const installCommands: Record<string, string> = {
@@ -40,7 +42,7 @@ function TerminalDemo() {
         <span className="term-title">billy</span>
       </div>
       <div className="terminal-body">
-        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.0-alpha · mistral · FREE</span></div>
+        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · mistral · FREE</span></div>
         <div className="t-dim">─────────────────────────────────────</div>
         <div><span className="t-prompt">you › </span><span className="t-cmd">Remember that I'm building a SaaS in Go</span></div>
         <div><span className="t-billy">Billy › </span><span className="t-res">Got it! I'll remember that you're building a SaaS product in Go. 🐐</span></div>
@@ -398,6 +400,19 @@ function BlogSection() {
 interface DevlogEntry { version: string; date: string; title: string; items: string[]; }
 
 const devlogEntries: DevlogEntry[] = [
+  {
+    version: 'v0.1.1-alpha',
+    date: 'March 2026',
+    title: 'Agentic mode, collapsible output & TUI polish',
+    items: [
+      'Interactive agentic picker — arrow-key Approve / Skip / Abort / Run all instead of y/n',
+      'Command output fed back to Billy as context — self-debugging loop until it works',
+      'Collapsible long output: click or Ctrl+X to expand; Billy reads full content',
+      'Progress bars via harmonica spring-physics animation',
+      'Mouse support — click to expand collapsed command output',
+      'You › / Billy › / Command › labels consistently left-aligned (lipgloss newline fix)',
+    ],
+  },
   {
     version: 'v0.1.0-alpha',
     date: 'March 2026',
