@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 
+const SUBSCRIBE_URL = 'https://billy-worker.billysh.workers.dev/subscribe';
+
 const DOCS_URL = 'https://jd4rider.github.io/billy-starlight';
 const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
 const INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-app/main/scripts/install.sh';
@@ -268,6 +270,205 @@ function PricingSection() {
   );
 }
 
+function NewsletterSection() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [msg, setMsg] = useState('');
+
+  const subscribe = async () => {
+    if (!email.trim() || !email.includes('@')) {
+      setMsg('Please enter a valid email address.');
+      setStatus('error');
+      return;
+    }
+    setStatus('loading');
+    try {
+      const res = await fetch(SUBSCRIBE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json() as { ok: boolean; message: string };
+      setMsg(data.message);
+      setStatus(data.ok ? 'success' : 'error');
+      if (data.ok) setEmail('');
+    } catch {
+      setMsg('Could not subscribe right now. Try again later.');
+      setStatus('error');
+    }
+  };
+
+  return (
+    <section className="newsletter-section" id="newsletter">
+      <div className="container">
+        <div className="newsletter-inner">
+          <div className="newsletter-text">
+            <h2>Stay in the loop</h2>
+            <p>
+              Get notified when new features ship, devlog posts go live, and when Billy leaves pre-alpha.
+              No spam. Unsubscribe anytime.
+            </p>
+          </div>
+          <div className="newsletter-form-wrap">
+            <div className="newsletter-form">
+              <input
+                type="email"
+                className="newsletter-input"
+                placeholder="you@example.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && subscribe()}
+                disabled={status === 'loading' || status === 'success'}
+              />
+              <button
+                className="btn btn-primary"
+                onClick={subscribe}
+                disabled={status === 'loading' || status === 'success'}
+              >
+                {status === 'loading' ? 'Subscribing…' : status === 'success' ? '✓ Subscribed!' : 'Subscribe'}
+              </button>
+            </div>
+            {msg && (
+              <p className={`newsletter-msg ${status === 'success' ? 'nl-success' : 'nl-error'}`}>{msg}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+interface BlogPost { slug: string; title: string; date: string; excerpt: string; tags: string[]; coming?: boolean; }
+
+const blogPosts: BlogPost[] = [
+  {
+    slug: 'introducing-billy-sh',
+    title: 'Introducing Billy.sh — Why I Built a Local AI Coding Assistant',
+    date: 'Coming Soon',
+    excerpt: 'GitHub Copilot costs $10/month. Cursor is $20/month. I wanted a fast, private AI pair programmer that runs entirely on my machine — so I built one in Go.',
+    tags: ['announcement', 'open-source'],
+    coming: true,
+  },
+  {
+    slug: 'memory-system-deep-dive',
+    title: "How Billy's Memory System Works",
+    date: 'Coming Soon',
+    excerpt: "Just say \"remember that I'm building a SaaS in Go\" — Billy stores it and injects it into every future prompt. Here's how the natural language detection works under the hood.",
+    tags: ['deep-dive', 'go'],
+    coming: true,
+  },
+  {
+    slug: 'local-ai-good-enough',
+    title: 'Is Local AI Good Enough for Real Dev Work?',
+    date: 'Coming Soon',
+    excerpt: "I've been coding with qwen2.5-coder:7b locally for months. Here's my honest take on where local models shine — and where they still fall short.",
+    tags: ['opinion', 'ollama'],
+    coming: true,
+  },
+];
+
+function BlogSection() {
+  return (
+    <section className="section" id="blog">
+      <div className="container">
+        <div className="section-label">Blog</div>
+        <h2>From the author</h2>
+        <p className="section-sub">Development insights, tutorials, and the story of building Billy.sh.</p>
+        <div className="blog-grid">
+          {blogPosts.map(post => (
+            <div className="blog-card" key={post.slug}>
+              <div className="blog-tags">
+                {post.tags.map(t => <span className="blog-tag" key={t}>{t}</span>)}
+                {post.coming && <span className="blog-tag tag-soon">soon</span>}
+              </div>
+              <h3>{post.title}</h3>
+              <p>{post.excerpt}</p>
+              <div className="blog-meta">
+                <span className="blog-date">{post.date}</span>
+                {!post.coming && <a href={`/blog/${post.slug}`} className="blog-read-link">Read →</a>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+interface DevlogEntry { version: string; date: string; title: string; items: string[]; }
+
+const devlogEntries: DevlogEntry[] = [
+  {
+    version: 'v0.1.0-alpha',
+    date: 'March 2026',
+    title: 'First public release',
+    items: [
+      'Full TUI with Bubble Tea — chat, history, command picker',
+      'Memory system — natural language detection + system prompt injection',
+      'Agentic mode — shell command detection with permission prompts',
+      'Slash commands: /suggest, /explain, /cd, /ls, /git, /compact, /session',
+      'License system — Ed25519 keys, offline validation, 5 tiers',
+      'Homebrew tap + Scoop bucket + .deb/.rpm/.apk packages',
+    ],
+  },
+  {
+    version: 'v0.0.8',
+    date: 'February 2026',
+    title: 'Memory & session history',
+    items: [
+      'SQLite-backed conversation history with interactive /history picker',
+      'Context compaction (/compact) — AI summarizes old messages to save tokens',
+      'Session checkpoints (/session) — save and restore named conversation points',
+      'Token estimate in status bar with amber warning at 75% capacity',
+    ],
+  },
+  {
+    version: 'v0.0.5',
+    date: 'January 2026',
+    title: 'Core TUI & Ollama integration',
+    items: [
+      'Bubble Tea TUI with viewport, word wrap, and streaming spinner',
+      'Ollama HTTP backend — streaming chat responses',
+      'TOML config system and SQLite history store',
+      'Billy goat mascot — SVG + PNG at 9 sizes + favicon',
+    ],
+  },
+];
+
+function DevlogSection() {
+  return (
+    <section className="section bg-alt" id="devlog">
+      <div className="container">
+        <div className="section-label">Devlog</div>
+        <h2>What we've shipped</h2>
+        <p className="section-sub">A running log of what's been built, version by version.</p>
+        <div className="devlog-timeline">
+          {devlogEntries.map((entry, i) => (
+            <div className="devlog-entry" key={entry.version}>
+              <div className="devlog-marker">
+                <div className="devlog-dot" />
+                {i < devlogEntries.length - 1 && <div className="devlog-line" />}
+              </div>
+              <div className="devlog-content">
+                <div className="devlog-header">
+                  <span className="devlog-version">{entry.version}</span>
+                  <span className="devlog-date">{entry.date}</span>
+                </div>
+                <div className="devlog-title">{entry.title}</div>
+                <ul className="devlog-items">
+                  {entry.items.map(item => (
+                    <li key={item}><span className="check">✓</span> {item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   return (
     <div>
@@ -282,6 +483,8 @@ function App() {
             <li><a href="#features">Features</a></li>
             <li><a href="#install">Install</a></li>
             <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#devlog">Devlog</a></li>
             <li><a href={DOCS_URL} target="_blank" rel="noreferrer">Docs</a></li>
             <li>
               <a href={GITHUB_URL} className="btn btn-outline" target="_blank" rel="noreferrer">
@@ -357,6 +560,15 @@ function App() {
       {/* PRICING */}
       <PricingSection />
 
+      {/* BLOG */}
+      <BlogSection />
+
+      {/* DEVLOG */}
+      <DevlogSection />
+
+      {/* NEWSLETTER */}
+      <NewsletterSection />
+
       {/* FOOTER */}
       <footer>
         <div className="footer-inner">
@@ -364,11 +576,16 @@ function App() {
             <strong>Billy.sh</strong> — Local AI, zero fees. &nbsp;
             <span style={{ color: 'var(--muted)' }}>Built with ❤️ and Go.</span>
           </div>
+          <div className="footer-contact">
+            <a href="mailto:jd4rider@gmail.com">✉ jd4rider@gmail.com</a>
+            <a href="tel:+14063967246">📞 406-396-7246</a>
+          </div>
           <div className="footer-links">
             <a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
             <a href={DOCS_URL} target="_blank" rel="noreferrer">Docs</a>
+            <a href="#blog">Blog</a>
+            <a href="#devlog">Devlog</a>
             <a href="#pricing">Pricing</a>
-            <a href="mailto:hello@billy.sh">Contact</a>
           </div>
         </div>
       </footer>
