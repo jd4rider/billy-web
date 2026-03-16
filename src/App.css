@@ -15,6 +15,7 @@
   --accent2: #0ea5e9;
   --green: #3fb950;
   --yellow: #d29922;
+  --amber: #f59e0b;
 }
 
 body {
@@ -95,9 +96,12 @@ nav {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-.badge-alpha { background: #3d2000; color: var(--yellow); border: 1px solid var(--yellow); }
-.badge-free  { background: #0c2d00; color: var(--green);  border: 1px solid var(--green); }
-.badge-pro   { background: #001d3d; color: var(--accent);  border: 1px solid var(--accent); }
+.badge-alpha   { background: #3d2000; color: var(--yellow);  border: 1px solid var(--yellow); }
+.badge-free    { background: #0c2d00; color: var(--green);   border: 1px solid var(--green); }
+.badge-pro     { background: #001d3d; color: var(--accent);  border: 1px solid var(--accent); }
+.badge-premium { background: #2d1a4d; color: #c084fc;        border: 1px solid #c084fc; }
+.badge-team    { background: #1a2d1a; color: #4ade80;        border: 1px solid #4ade80; }
+.badge-enterprise { background: #2d2500; color: var(--amber); border: 1px solid var(--amber); }
 
 /* HERO */
 .hero {
@@ -213,10 +217,10 @@ nav {
 /* PRICING */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 960px;
+  margin: 0 auto 24px;
 }
 .pricing-card {
   background: var(--bg2);
@@ -227,7 +231,7 @@ nav {
   flex-direction: column;
 }
 .pricing-card.featured {
-  border-color: var(--accent);
+  border-color: var(--amber);
   position: relative;
 }
 .pricing-card.featured::before {
@@ -236,7 +240,7 @@ nav {
   top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--accent);
+  background: var(--amber);
   color: #0d1117;
   font-size: 0.72rem;
   font-weight: 700;
@@ -261,6 +265,119 @@ nav {
 .check { color: var(--green); }
 .cross { color: #484f58; }
 .pricing-card .btn { width: 100%; justify-content: center; margin-top: auto; }
+
+/* Amber outline button */
+.btn-amber {
+  background: transparent;
+  color: var(--amber);
+  border: 1px solid var(--amber);
+}
+.btn-amber:hover { background: var(--amber); color: #0d1117; }
+
+/* Pre-alpha notice */
+.pre-alpha-note {
+  color: var(--yellow);
+  font-size: 0.85rem;
+  margin-bottom: 36px;
+}
+
+/* TEAM CARD */
+.team-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 960px;
+  margin: 0 auto 24px;
+  text-align: left;
+}
+.team-card-inner {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+.team-card-left { flex: 1; }
+.team-card-right { flex: 1; }
+.seat-options { display: flex; flex-direction: column; gap: 10px; }
+.seat-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+.seat-label { font-weight: 600; font-size: 0.9rem; }
+.seat-price { font-size: 1.2rem; font-weight: 800; color: var(--accent); }
+.enterprise-note {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 14px;
+}
+
+/* ENTERPRISE CTA */
+.enterprise-cta {
+  background: linear-gradient(135deg, var(--bg2) 0%, #1a1200 100%);
+  border: 1px solid var(--amber);
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 960px;
+  margin: 0 auto 24px;
+  text-align: left;
+}
+.enterprise-inner {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.enterprise-info { min-width: 200px; }
+.enterprise-features { flex: 1; min-width: 200px; }
+.enterprise-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 200px;
+  justify-content: center;
+}
+
+/* PROMO SECTION */
+.promo-section {
+  max-width: 480px;
+  margin: 32px auto 0;
+  text-align: center;
+}
+.promo-section > p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+.promo-form {
+  display: flex;
+  gap: 8px;
+}
+.promo-input {
+  flex: 1;
+  padding: 8px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+.promo-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.promo-msg {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.promo-success { background: #0c2d00; color: var(--green); }
+.promo-error   { background: #2d0000; color: #f87171; }
 
 /* INSTALL */
 .install-section { padding: 72px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -319,6 +436,12 @@ footer {
   padding: 0 24px;
 }
 .footer-links { display: flex; gap: 20px; }
+
+@media (max-width: 768px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .team-card-inner { flex-direction: column; }
+  .enterprise-inner { flex-direction: column; }
+}
 
 @media (max-width: 640px) {
   .hero { padding: 60px 0 48px; }
