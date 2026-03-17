@@ -340,16 +340,16 @@ function NewsletterSection() {
   );
 }
 
-interface BlogPost { slug: string; title: string; date: string; excerpt: string; tags: string[]; coming?: boolean; }
+interface BlogPost { slug: string; title: string; date: string; excerpt: string; tags: string[]; coming?: boolean; url?: string; }
 
 const blogPosts: BlogPost[] = [
   {
     slug: 'introducing-billy-sh',
     title: 'Introducing Billy.sh — Why I Built a Local AI Coding Assistant',
-    date: 'Coming Soon',
+    date: 'Mar 17, 2026',
     excerpt: 'GitHub Copilot costs $10/month. Cursor is $20/month. I wanted a fast, private AI pair programmer that runs entirely on my machine — so I built one in Go.',
     tags: ['announcement', 'open-source'],
-    coming: true,
+    url: 'https://jd4rider.github.io/billy-blog/blog/introducing-billy-sh/',
   },
   {
     slug: 'memory-system-deep-dive',
@@ -387,7 +387,7 @@ function BlogSection() {
               <p>{post.excerpt}</p>
               <div className="blog-meta">
                 <span className="blog-date">{post.date}</span>
-                {!post.coming && <a href={`/blog/${post.slug}`} className="blog-read-link">Read →</a>}
+                {!post.coming && post.url && <a href={post.url} target="_blank" rel="noreferrer" className="blog-read-link">Read →</a>}
               </div>
             </div>
           ))}
