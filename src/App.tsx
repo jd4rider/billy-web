@@ -362,10 +362,10 @@ const blogPosts: BlogPost[] = [
   {
     slug: 'local-ai-good-enough',
     title: 'Is Local AI Good Enough for Real Dev Work?',
-    date: 'Coming Soon',
+    date: 'Mar 17, 2026',
     excerpt: "I've been coding with qwen2.5-coder:7b locally for months. Here's my honest take on where local models shine — and where they still fall short.",
     tags: ['opinion', 'ollama'],
-    coming: true,
+    url: 'https://jd4rider.github.io/billy-blog/blog/local-ai-good-enough/',
   },
 ];
 
