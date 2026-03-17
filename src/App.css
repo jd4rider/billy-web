@@ -441,6 +441,17 @@ footer {
   padding: 0 24px;
 }
 .footer-links { display: flex; gap: 20px; }
+.footer-support {
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  opacity: 0.65;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.footer-support a { color: var(--muted); opacity: 1; }
+.footer-support a:hover { color: var(--text); text-decoration: none; }
 
 @media (max-width: 768px) {
   .pricing-grid { grid-template-columns: 1fr; }

@@ -354,10 +354,10 @@ const blogPosts: BlogPost[] = [
   {
     slug: 'memory-system-deep-dive',
     title: "How Billy's Memory System Works",
-    date: 'Coming Soon',
+    date: 'Mar 17, 2026',
     excerpt: "Just say \"remember that I'm building a SaaS in Go\" — Billy stores it and injects it into every future prompt. Here's how the natural language detection works under the hood.",
     tags: ['deep-dive', 'go'],
-    coming: true,
+    url: 'https://jd4rider.github.io/billy-blog/blog/how-billys-memory-works/',
   },
   {
     slug: 'local-ai-good-enough',
@@ -616,6 +616,12 @@ function App() {
             <a href="#blog">Blog</a>
             <a href="#devlog">Devlog</a>
             <a href="#pricing">Pricing</a>
+          </div>
+          <div className="footer-support">
+            If Billy helps your workflow →{' '}
+            <a href="https://buymeacoffee.com/jd4rider" target="_blank" rel="noreferrer">☕ Buy me a coffee</a>
+            {' · '}
+            <a href="https://github.com/sponsors/jd4rider" target="_blank" rel="noreferrer">❤️ GitHub Sponsors</a>
           </div>
         </div>
       </footer>
