@@ -42,7 +42,7 @@ function TerminalDemo() {
         <span className="term-title">billy</span>
       </div>
       <div className="terminal-body">
-        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · mistral · FREE</span></div>
+        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · qwen2.5-coder:7b · FREE</span></div>
         <div className="t-dim">─────────────────────────────────────</div>
         <div><span className="t-prompt">you › </span><span className="t-cmd">Remember that I'm building a SaaS in Go</span></div>
         <div><span className="t-billy">Billy › </span><span className="t-res">Got it! I'll remember that you're building a SaaS product in Go. 🐐</span></div>
@@ -485,6 +485,9 @@ function DevlogSection() {
 }
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <div>
       {/* NAV */}
@@ -507,6 +510,18 @@ function App() {
               </a>
             </li>
           </ul>
+          <button className="nav-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
+            {menuOpen ? '✕' : '☰'}
+          </button>
+        </div>
+        <div className={`nav-mobile${menuOpen ? ' open' : ''}`}>
+          <a href="#features" onClick={closeMenu}>Features</a>
+          <a href="#install" onClick={closeMenu}>Install</a>
+          <a href="#pricing" onClick={closeMenu}>Pricing</a>
+          <a href="#blog" onClick={closeMenu}>Blog</a>
+          <a href="#devlog" onClick={closeMenu}>Devlog</a>
+          <a href={DOCS_URL} target="_blank" rel="noreferrer" onClick={closeMenu}>Docs</a>
+          <a href={GITHUB_URL} target="_blank" rel="noreferrer" onClick={closeMenu}>★ GitHub</a>
         </div>
       </nav>
 
