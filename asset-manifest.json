@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/billy-web/static/css/main.64bfa313.css",
-    "main.js": "/billy-web/static/js/main.9d4a55e0.js",
+    "main.js": "/billy-web/static/js/main.c3ff7c11.js",
     "index.html": "/billy-web/index.html",
     "main.64bfa313.css.map": "/billy-web/static/css/main.64bfa313.css.map",
-    "main.9d4a55e0.js.map": "/billy-web/static/js/main.9d4a55e0.js.map"
+    "main.c3ff7c11.js.map": "/billy-web/static/js/main.c3ff7c11.js.map"
   },
   "entrypoints": [
     "static/css/main.64bfa313.css",
-    "static/js/main.9d4a55e0.js"
+    "static/js/main.c3ff7c11.js"
   ]
 }
