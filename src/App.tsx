@@ -42,7 +42,7 @@ function TerminalDemo() {
         <span className="term-title">billy</span>
       </div>
       <div className="terminal-body">
-        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · qwen2.5-coder:7b · FREE</span></div>
+        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · qwen2.5-coder:14b · FREE</span></div>
         <div className="t-dim">─────────────────────────────────────</div>
         <div><span className="t-prompt">you › </span><span className="t-cmd">Remember that I'm building a SaaS in Go</span></div>
         <div><span className="t-billy">Billy › </span><span className="t-res">Got it! I'll remember that you're building a SaaS product in Go. 🐐</span></div>
@@ -363,7 +363,7 @@ const blogPosts: BlogPost[] = [
     slug: 'local-ai-good-enough',
     title: 'Is Local AI Good Enough for Real Dev Work?',
     date: 'Mar 17, 2026',
-    excerpt: "I've been coding with qwen2.5-coder:7b locally for months. Here's my honest take on where local models shine — and where they still fall short.",
+    excerpt: "I've been coding with qwen2.5-coder:14b locally for months. Here's my honest take on where local models shine — and where they still fall short.",
     tags: ['opinion', 'ollama'],
     url: 'https://jd4rider.github.io/billy-blog/blog/local-ai-good-enough/',
   },
