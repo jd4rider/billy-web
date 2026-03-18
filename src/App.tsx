@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 
 const SUBSCRIBE_URL = 'https://billy-worker.billysh.workers.dev/subscribe';
-const LS_CHECKOUT = 'https://billysh.lemonsqueezy.com/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8';
 
 const DOCS_URL = 'https://jd4rider.github.io/billy-starlight';
 const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
@@ -161,7 +160,7 @@ function PricingSection() {
               <li><span className="check">✓</span> Priority command execution</li>
               <li><span className="check">✓</span> All slash commands</li>
             </ul>
-            <a href={`${LS_CHECKOUT}?enabled=1408429`} className="btn btn-primary" target="_blank" rel="noreferrer">
+            <a href="https://billysh.lemonsqueezy.com/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8?enabled=1408429" className="btn btn-primary" target="_blank" rel="noreferrer">
               Buy Pro — $19
             </a>
           </div>
@@ -178,7 +177,7 @@ function PricingSection() {
               <li><span className="check">✓</span> Future: IDE plugins (VS Code, JetBrains)</li>
               <li><span className="check">✓</span> Priority support (email)</li>
             </ul>
-            <a href={`${LS_CHECKOUT}?enabled=1408393`} className="btn btn-amber" target="_blank" rel="noreferrer">
+            <a href="https://billysh.lemonsqueezy.com/checkout/buy/6e29b223-17b3-44d4-8fb9-2d166343b04a?enabled=1408393" className="btn btn-amber" target="_blank" rel="noreferrer">
               Buy Premium — $49
             </a>
           </div>
@@ -205,17 +204,17 @@ function PricingSection() {
                 <div className="seat-option">
                   <span className="seat-label">5 seats</span>
                   <span className="seat-price">$70</span>
-                  <a href={`${LS_CHECKOUT}?enabled=1408425`} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/b3d7bfaf-7917-4e27-bf22-75a86ff027f6?enabled=1408425" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">10 seats</span>
                   <span className="seat-price">$130</span>
-                  <a href={`${LS_CHECKOUT}?enabled=1408426`} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/0f746ded-8bca-4ff9-807a-356c1c9cfeb9?enabled=1408426" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">25 seats</span>
                   <span className="seat-price">$300</span>
-                  <a href={`${LS_CHECKOUT}?enabled=1408428`} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/5189e3c4-9b10-4745-83aa-a6129be85840?enabled=1408428" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
               </div>
               <p className="enterprise-note">
