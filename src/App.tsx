@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 const SUBSCRIBE_URL = 'https://billy-worker.billysh.workers.dev/subscribe';
+const LS_CHECKOUT = 'https://billysh.lemonsqueezy.com/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8';
 
 const DOCS_URL = 'https://jd4rider.github.io/billy-starlight';
 const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
@@ -42,7 +43,7 @@ function TerminalDemo() {
         <span className="term-title">billy</span>
       </div>
       <div className="terminal-body">
-        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · qwen2.5-coder:14b · FREE</span></div>
+        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · mistral · FREE</span></div>
         <div className="t-dim">─────────────────────────────────────</div>
         <div><span className="t-prompt">you › </span><span className="t-cmd">Remember that I'm building a SaaS in Go</span></div>
         <div><span className="t-billy">Billy › </span><span className="t-res">Got it! I'll remember that you're building a SaaS product in Go. 🐐</span></div>
@@ -160,7 +161,7 @@ function PricingSection() {
               <li><span className="check">✓</span> Priority command execution</li>
               <li><span className="check">✓</span> All slash commands</li>
             </ul>
-            <a href="https://billysh.lemonsqueezy.com/checkout/buy/pro" className="btn btn-primary" target="_blank" rel="noreferrer">
+            <a href={`${LS_CHECKOUT}?enabled=1408429`} className="btn btn-primary" target="_blank" rel="noreferrer">
               Buy Pro — $19
             </a>
           </div>
@@ -177,7 +178,7 @@ function PricingSection() {
               <li><span className="check">✓</span> Future: IDE plugins (VS Code, JetBrains)</li>
               <li><span className="check">✓</span> Priority support (email)</li>
             </ul>
-            <a href="https://billysh.lemonsqueezy.com/checkout/buy/premium" className="btn btn-amber" target="_blank" rel="noreferrer">
+            <a href={`${LS_CHECKOUT}?enabled=1408393`} className="btn btn-amber" target="_blank" rel="noreferrer">
               Buy Premium — $49
             </a>
           </div>
@@ -204,17 +205,17 @@ function PricingSection() {
                 <div className="seat-option">
                   <span className="seat-label">5 seats</span>
                   <span className="seat-price">$70</span>
-                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/team?seats=5" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href={`${LS_CHECKOUT}?enabled=1408425`} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">10 seats</span>
                   <span className="seat-price">$130</span>
-                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/team?seats=10" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href={`${LS_CHECKOUT}?enabled=1408426`} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">25 seats</span>
                   <span className="seat-price">$300</span>
-                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/team?seats=25" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href={`${LS_CHECKOUT}?enabled=1408428`} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
               </div>
               <p className="enterprise-note">
@@ -340,32 +341,32 @@ function NewsletterSection() {
   );
 }
 
-interface BlogPost { slug: string; title: string; date: string; excerpt: string; tags: string[]; coming?: boolean; url?: string; }
+interface BlogPost { slug: string; title: string; date: string; excerpt: string; tags: string[]; coming?: boolean; }
 
 const blogPosts: BlogPost[] = [
   {
     slug: 'introducing-billy-sh',
     title: 'Introducing Billy.sh — Why I Built a Local AI Coding Assistant',
-    date: 'Mar 17, 2026',
+    date: 'Coming Soon',
     excerpt: 'GitHub Copilot costs $10/month. Cursor is $20/month. I wanted a fast, private AI pair programmer that runs entirely on my machine — so I built one in Go.',
     tags: ['announcement', 'open-source'],
-    url: 'https://jd4rider.github.io/billy-blog/blog/introducing-billy-sh/',
+    coming: true,
   },
   {
     slug: 'memory-system-deep-dive',
     title: "How Billy's Memory System Works",
-    date: 'Mar 17, 2026',
+    date: 'Coming Soon',
     excerpt: "Just say \"remember that I'm building a SaaS in Go\" — Billy stores it and injects it into every future prompt. Here's how the natural language detection works under the hood.",
     tags: ['deep-dive', 'go'],
-    url: 'https://jd4rider.github.io/billy-blog/blog/how-billys-memory-works/',
+    coming: true,
   },
   {
     slug: 'local-ai-good-enough',
     title: 'Is Local AI Good Enough for Real Dev Work?',
-    date: 'Mar 17, 2026',
-    excerpt: "I've been coding with qwen2.5-coder:14b locally for months. Here's my honest take on where local models shine — and where they still fall short.",
+    date: 'Coming Soon',
+    excerpt: "I've been coding with qwen2.5-coder:7b locally for months. Here's my honest take on where local models shine — and where they still fall short.",
     tags: ['opinion', 'ollama'],
-    url: 'https://jd4rider.github.io/billy-blog/blog/local-ai-good-enough/',
+    coming: true,
   },
 ];
 
@@ -387,7 +388,7 @@ function BlogSection() {
               <p>{post.excerpt}</p>
               <div className="blog-meta">
                 <span className="blog-date">{post.date}</span>
-                {!post.coming && post.url && <a href={post.url} target="_blank" rel="noreferrer" className="blog-read-link">Read →</a>}
+                {!post.coming && <a href={`/blog/${post.slug}`} className="blog-read-link">Read →</a>}
               </div>
             </div>
           ))}
@@ -485,9 +486,6 @@ function DevlogSection() {
 }
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const closeMenu = () => setMenuOpen(false);
-
   return (
     <div>
       {/* NAV */}
@@ -510,18 +508,6 @@ function App() {
               </a>
             </li>
           </ul>
-          <button className="nav-hamburger" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
-            {menuOpen ? '✕' : '☰'}
-          </button>
-        </div>
-        <div className={`nav-mobile${menuOpen ? ' open' : ''}`}>
-          <a href="#features" onClick={closeMenu}>Features</a>
-          <a href="#install" onClick={closeMenu}>Install</a>
-          <a href="#pricing" onClick={closeMenu}>Pricing</a>
-          <a href="#blog" onClick={closeMenu}>Blog</a>
-          <a href="#devlog" onClick={closeMenu}>Devlog</a>
-          <a href={DOCS_URL} target="_blank" rel="noreferrer" onClick={closeMenu}>Docs</a>
-          <a href={GITHUB_URL} target="_blank" rel="noreferrer" onClick={closeMenu}>★ GitHub</a>
         </div>
       </nav>
 
@@ -616,12 +602,6 @@ function App() {
             <a href="#blog">Blog</a>
             <a href="#devlog">Devlog</a>
             <a href="#pricing">Pricing</a>
-          </div>
-          <div className="footer-support">
-            If Billy helps your workflow →{' '}
-            <a href="https://buymeacoffee.com/jd4rider" target="_blank" rel="noreferrer">☕ Buy me a coffee</a>
-            {' · '}
-            <a href="https://github.com/sponsors/jd4rider" target="_blank" rel="noreferrer">❤️ GitHub Sponsors</a>
           </div>
         </div>
       </footer>
