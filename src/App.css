@@ -393,6 +393,14 @@ nav {
   color: var(--muted);
 }
 
+/* GISCUS */
+.giscus-container {
+  margin-top: 32px;
+}
+.giscus-container iframe {
+  border-radius: 8px;
+}
+
 /* INSTALL */
 .install-section { padding: 72px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .install-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }

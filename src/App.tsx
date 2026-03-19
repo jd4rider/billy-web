@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 const SUBSCRIBE_URL = 'https://billy-worker.billysh.workers.dev/subscribe';
@@ -491,6 +491,40 @@ function TestimonialsSection() {
   );
 }
 
+function GiscusSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current || ref.current.querySelector('iframe')) return;
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.setAttribute('data-repo', 'jd4rider/billy-web');
+    script.setAttribute('data-repo-id', 'R_kgDORnzA2Q');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDORnzA2c4C4v0W');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'top');
+    script.setAttribute('data-theme', 'dark');
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    ref.current.appendChild(script);
+  }, []);
+  return (
+    <section className="section bg-alt" id="community">
+      <div className="container">
+        <div className="section-label">Community</div>
+        <h2>Questions & feedback</h2>
+        <p className="section-sub">Ask questions, share what you built, or leave a review. Sign in with GitHub.</p>
+        <div ref={ref} className="giscus-container" />
+      </div>
+    </section>
+  );
+}
+
 function DevlogSection() {
   return (
     <section className="section bg-alt" id="devlog">
@@ -624,6 +658,9 @@ function App() {
       {/* TESTIMONIALS */}
       <TestimonialsSection />
 
+      {/* COMMUNITY / GISCUS */}
+      <GiscusSection />
+
       {/* BLOG */}
       <BlogSection />
 
@@ -647,6 +684,7 @@ function App() {
           <div className="footer-links">
             <a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
             <a href={DOCS_URL} target="_blank" rel="noreferrer">Docs</a>
+            <a href="#community">Community</a>
             <a href="#blog">Blog</a>
             <a href="#devlog">Devlog</a>
             <a href="#pricing">Pricing</a>
