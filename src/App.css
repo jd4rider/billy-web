@@ -401,6 +401,17 @@ nav {
   border-radius: 8px;
 }
 
+/* PRODUCT HUNT */
+.ph-badge-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+.ph-badge-row a:hover {
+  opacity: 0.85;
+  transition: opacity 0.15s;
+}
+
 /* INSTALL */
 .install-section { padding: 72px 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .install-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }

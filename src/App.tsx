@@ -126,7 +126,7 @@ function PricingSection() {
         <p className="section-sub" style={{ margin: '0 auto 12px' }}>
           Start free. Upgrade when you're ready — one-time payment, no subscription.
         </p>
-        <p className="pre-alpha-note">⚠ Pre-Alpha — download now free while we build out features.</p>
+        <p className="pre-alpha-note">Alpha — download now free while we build out features.</p>
 
         {/* Main 3-col grid: Free / Pro / Premium */}
         <div className="pricing-grid">
@@ -295,7 +295,7 @@ function NewsletterSection() {
           <div className="newsletter-text">
             <h2>Stay in the loop</h2>
             <p>
-              Get notified when new features ship, devlog posts go live, and when Billy leaves pre-alpha.
+              Get notified when new features ship, devlog posts go live, and when Billy hits beta.
               No spam. Unsubscribe anytime.
             </p>
           </div>
@@ -351,7 +351,7 @@ const blogPosts: BlogPost[] = [
     slug: 'local-ai-good-enough',
     title: 'Is Local AI Good Enough for Real Dev Work?',
     date: 'Coming Soon',
-    excerpt: "I've been coding with qwen2.5-coder:7b locally for months. Here's my honest take on where local models shine — and where they still fall short.",
+    excerpt: "I've been coding with qwen2.5-coder:7b locally for a while now. Here's my honest take on where local models shine — and where they still fall short.",
     tags: ['opinion', 'ollama'],
     coming: true,
   },
@@ -388,6 +388,31 @@ function BlogSection() {
 interface DevlogEntry { version: string; date: string; title: string; items: string[]; }
 
 const devlogEntries: DevlogEntry[] = [
+  {
+    version: 'v0.1.8-alpha',
+    date: 'March 2026',
+    title: 'Custom endpoints & multi-backend support',
+    items: [
+      'Pro+ users can now point Billy at any OpenAI-compatible endpoint — Groq, OpenRouter, LM Studio, your own server',
+      'New backend config: set backend.type = "custom", backend.url, backend.model, backend.api_key in config.toml',
+      'Environment variable overrides: BILLY_BACKEND_TYPE, BILLY_BACKEND_URL, BILLY_BACKEND_MODEL, BILLY_API_KEY',
+      '/backend command shows active backend, model, and config file path',
+      '/backend reload — hot-reload backend settings without restarting Billy',
+      'Ollama auto-launch skipped when pointing at a remote host',
+      'License gate enforced in the factory — free tier stays local-only',
+    ],
+  },
+  {
+    version: 'v0.1.7-alpha',
+    date: 'March 2026',
+    title: 'Licensing polish & UX improvements',
+    items: [
+      'Polished /activate, /deactivate, and /license display text — clearer prompts and status messages',
+      'One-shot mode respects license tier limits consistently with TUI mode',
+      'README rewrite — full command reference, configuration guide, environment variables, and roadmap',
+      'Variant ID map updated for both test and live LemonSqueezy products',
+    ],
+  },
   {
     version: 'v0.1.6-alpha',
     date: 'March 2026',
@@ -491,7 +516,29 @@ function TestimonialsSection() {
   );
 }
 
-function GiscusSection() {
+function ProductHuntSection() {
+  return (
+    <section className="section" id="producthunt">
+      <div className="container" style={{ textAlign: 'center' }}>
+        <div className="section-label">Product Hunt</div>
+        <h2>We're live on Product Hunt 🎉</h2>
+        <p className="section-sub">If Billy saves you money on subscriptions, an upvote goes a long way.</p>
+        <div className="ph-badge-row">
+          <a href="https://www.producthunt.com/posts/billy-sh?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-billy-sh"
+            target="_blank" rel="noreferrer">
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=billy-sh&theme=dark"
+              alt="Billy.sh - Local AI coding assistant, no subscription | Product Hunt"
+              style={{ width: 250, height: 54 }}
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current || ref.current.querySelector('iframe')) return;
@@ -594,7 +641,7 @@ function App() {
       <section className="hero">
         <div className="container">
           <div className="hero-badge">
-            <span className="badge badge-alpha">⚠ Pre-Alpha — expect rough edges</span>
+            <span className="badge badge-alpha">Alpha — expect rough edges</span>
           </div>
           <h1>
             AI coding assistant<br />
@@ -658,6 +705,9 @@ function App() {
       {/* TESTIMONIALS */}
       <TestimonialsSection />
 
+      {/* PRODUCT HUNT */}
+      <ProductHuntSection />
+
       {/* COMMUNITY / GISCUS */}
       <GiscusSection />
 
@@ -684,6 +734,7 @@ function App() {
           <div className="footer-links">
             <a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
             <a href={DOCS_URL} target="_blank" rel="noreferrer">Docs</a>
+            <a href="#producthunt">Product Hunt</a>
             <a href="#community">Community</a>
             <a href="#blog">Blog</a>
             <a href="#devlog">Devlog</a>
