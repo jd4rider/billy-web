@@ -1,4 +1,3 @@
+# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Allow: /
-
-Sitemap: https://jd4rider.github.io/billy-web/sitemap.xml
+Disallow:
