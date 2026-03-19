@@ -7,6 +7,30 @@ const DOCS_URL = 'https://jd4rider.github.io/billy-starlight';
 const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
 const INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-app/main/scripts/install.sh';
 
+// ── Checkout URLs ────────────────────────────────────────────────────────────
+// Add ?test=1 to the page URL to switch all checkout buttons to LS test-mode.
+// Replace the TEST_* values with your LemonSqueezy test-mode checkout URLs.
+const TEST_MODE = new URLSearchParams(window.location.search).has('test');
+
+const URLS = {
+  live: {
+    pro:    'https://billysh.lemonsqueezy.com/checkout/buy/e42e130f-96b1-48ba-b4d7-93bb59792606?enabled=1420712',
+    premium:'https://billysh.lemonsqueezy.com/checkout/buy/3e85bc44-f294-414c-a34d-ccf3e42dc87d?enabled=1420713',
+    team5:  'https://billysh.lemonsqueezy.com/checkout/buy/5445951a-324e-43a1-9f21-15b7adb67bdf?enabled=1420715',
+    team10: 'https://billysh.lemonsqueezy.com/checkout/buy/47d0ac97-30e8-46d1-bab8-296a08a7bef4?enabled=1420716',
+    team25: 'https://billysh.lemonsqueezy.com/checkout/buy/472a5778-f973-4bf1-af57-f936f0db2d40?enabled=1420717',
+  },
+  test: {
+    pro:    'https://billysh.lemonsqueezy.com/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8?enabled=1408429',
+    premium:'https://billysh.lemonsqueezy.com/checkout/buy/6e29b223-17b3-44d4-8fb9-2d166343b04a?enabled=1408393',
+    team5:  'https://billysh.lemonsqueezy.com/checkout/buy/b3d7bfaf-7917-4e27-bf22-75a86ff027f6?enabled=1408425',
+    team10: 'https://billysh.lemonsqueezy.com/checkout/buy/0f746ded-8bca-4ff9-807a-356c1c9cfeb9?enabled=1408426',
+    team25: 'https://billysh.lemonsqueezy.com/checkout/buy/5189e3c4-9b10-4745-83aa-a6129be85840?enabled=1408428',
+  },
+};
+
+const checkout = TEST_MODE ? URLS.test : URLS.live;
+
 interface Feature {
   icon: string;
   title: string;
@@ -94,26 +118,6 @@ function InstallSection() {
 }
 
 function PricingSection() {
-  const [promoCode, setPromoCode] = useState('');
-  const [promoMsg, setPromoMsg] = useState('');
-  const [promoApplied, setPromoApplied] = useState(false);
-
-  const applyPromo = async () => {
-    if (!promoCode.trim()) return;
-    try {
-      const res = await fetch('https://billy-worker.billysh.workers.dev/validate-promo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: promoCode }),
-      });
-      const data = await res.json() as { valid: boolean; message: string };
-      setPromoMsg(data.message);
-      setPromoApplied(data.valid);
-    } catch {
-      setPromoMsg('Could not validate code. Try again later.');
-    }
-  };
-
   return (
     <section className="section" id="pricing">
       <div className="container" style={{ textAlign: 'center' }}>
@@ -151,16 +155,17 @@ function PricingSection() {
             <div><span className="badge badge-pro">Pro</span></div>
             <div className="pricing-name" style={{ marginTop: 12 }}>Pro</div>
             <div className="pricing-price">$19 <span>one-time</span></div>
-            <div className="pricing-desc">Full features, forever. No recurring fees.</div>
+            <div className="pricing-desc">Full features, forever. <strong>Use on 2 machines.</strong></div>
             <ul className="pricing-features">
               <li><span className="check">✓</span> <strong>Unlimited</strong> messages</li>
+              <li><span className="check">✓</span> <strong>Install on 2 machines</strong> (home + work)</li>
               <li><span className="check">✓</span> All backends (Ollama, Groq, custom HTTP)</li>
               <li><span className="check">✓</span> Full conversation history</li>
               <li><span className="check">✓</span> Memory system</li>
-              <li><span className="check">✓</span> Priority command execution</li>
               <li><span className="check">✓</span> All slash commands</li>
             </ul>
-            <a href="https://billysh.lemonsqueezy.com/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8?enabled=1408429" className="btn btn-primary" target="_blank" rel="noreferrer">
+            <div className="pricing-compare">vs. GitHub Copilot $10/mo forever</div>
+            <a href={checkout.pro} className="btn btn-primary" target="_blank" rel="noreferrer">
               Buy Pro — $19
             </a>
           </div>
@@ -170,14 +175,16 @@ function PricingSection() {
             <div><span className="badge badge-premium">Premium</span></div>
             <div className="pricing-name" style={{ marginTop: 12 }}>Premium</div>
             <div className="pricing-price">$49 <span>one-time</span></div>
-            <div className="pricing-desc">Everything in Pro, plus upcoming power features.</div>
+            <div className="pricing-desc">Everything in Pro. <strong>Use on 3 machines.</strong></div>
             <ul className="pricing-features">
               <li><span className="check">✓</span> Everything in Pro</li>
+              <li><span className="check">✓</span> <strong>Install on 3 machines</strong></li>
               <li><span className="check">✓</span> Future: voice mode (Whisper + Piper TTS)</li>
               <li><span className="check">✓</span> Future: IDE plugins (VS Code, JetBrains)</li>
               <li><span className="check">✓</span> Priority support (email)</li>
             </ul>
-            <a href="https://billysh.lemonsqueezy.com/checkout/buy/6e29b223-17b3-44d4-8fb9-2d166343b04a?enabled=1408393" className="btn btn-amber" target="_blank" rel="noreferrer">
+            <div className="pricing-compare">vs. Cursor $20/mo — pay once, done</div>
+            <a href={checkout.premium} className="btn btn-amber" target="_blank" rel="noreferrer">
               Buy Premium — $49
             </a>
           </div>
@@ -204,17 +211,17 @@ function PricingSection() {
                 <div className="seat-option">
                   <span className="seat-label">5 seats</span>
                   <span className="seat-price">$70</span>
-                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/b3d7bfaf-7917-4e27-bf22-75a86ff027f6?enabled=1408425" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href={checkout.team5} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">10 seats</span>
                   <span className="seat-price">$130</span>
-                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/0f746ded-8bca-4ff9-807a-356c1c9cfeb9?enabled=1408426" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href={checkout.team10} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">25 seats</span>
                   <span className="seat-price">$300</span>
-                  <a href="https://billysh.lemonsqueezy.com/checkout/buy/5189e3c4-9b10-4745-83aa-a6129be85840?enabled=1408428" className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a href={checkout.team25} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
                 </div>
               </div>
               <p className="enterprise-note">
@@ -247,26 +254,7 @@ function PricingSection() {
           </div>
         </div>
 
-        {/* PROMO CODE */}
-        <div className="promo-section">
-          <p>Have a promo code?</p>
-          <div className="promo-form">
-            <input
-              type="text"
-              className="promo-input"
-              placeholder="Enter promo code"
-              value={promoCode}
-              onChange={e => setPromoCode(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && applyPromo()}
-            />
-            <button className="btn btn-outline" onClick={applyPromo}>Apply</button>
-          </div>
-          {promoMsg && (
-            <p className={`promo-msg ${promoApplied ? 'promo-success' : 'promo-error'}`}>
-              {promoMsg}
-            </p>
-          )}
-        </div>
+        <p className="pricing-promo-note">Have a discount code? Enter it at checkout — LemonSqueezy applies it automatically.</p>
       </div>
     </section>
   );
@@ -401,6 +389,19 @@ interface DevlogEntry { version: string; date: string; title: string; items: str
 
 const devlogEntries: DevlogEntry[] = [
   {
+    version: 'v0.1.6-alpha',
+    date: 'March 2026',
+    title: 'LemonSqueezy native activation & /deactivate',
+    items: [
+      'Migrated from custom Ed25519 keys to LemonSqueezy License Keys API — phone-home activation with seat enforcement',
+      'Pro license: 2 activations (home + work machine); Premium: 3 activations',
+      'New /deactivate command — frees your seat so you can move to another machine',
+      'Upgrade path: activating a new key (e.g. Pro → Premium) auto-deactivates the old seat',
+      'Background re-validation every 7 days keeps licenses current without interrupting work',
+      'Activation stored encrypted in SQLite — no plaintext keys on disk',
+    ],
+  },
+  {
     version: 'v0.1.1-alpha',
     date: 'March 2026',
     title: 'Agentic mode, collapsible output & TUI polish',
@@ -450,6 +451,46 @@ const devlogEntries: DevlogEntry[] = [
   },
 ];
 
+// ── Testimonials ─────────────────────────────────────────────────────────────
+// Add real quotes here as they come in. Name + role + quote is all you need.
+// For Product Hunt reviews, link to the PH page instead of a URL.
+interface Testimonial { name: string; role: string; quote: string; avatar?: string; }
+
+const testimonials: Testimonial[] = [
+  // Placeholder — replace with real user quotes as they come in.
+  // {
+  //   name: 'Jane D.',
+  //   role: 'Senior SWE at Acme',
+  //   quote: 'Replaced Copilot CLI on day one. No API bills, same quality.',
+  // },
+];
+
+function TestimonialsSection() {
+  if (testimonials.length === 0) return null; // hide until we have real quotes
+  return (
+    <section className="section" id="reviews">
+      <div className="container" style={{ textAlign: 'center' }}>
+        <div className="section-label">Reviews</div>
+        <h2>What developers are saying</h2>
+        <div className="testimonials-grid">
+          {testimonials.map((t, i) => (
+            <div key={i} className="testimonial-card">
+              <p className="testimonial-quote">"{t.quote}"</p>
+              <div className="testimonial-author">
+                {t.avatar && <img src={t.avatar} alt={t.name} className="testimonial-avatar" />}
+                <div>
+                  <strong>{t.name}</strong>
+                  <span className="testimonial-role">{t.role}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function DevlogSection() {
   return (
     <section className="section bg-alt" id="devlog">
@@ -487,6 +528,11 @@ function DevlogSection() {
 function App() {
   return (
     <div>
+      {TEST_MODE && (
+        <div style={{ background: '#f59e0b', color: '#000', textAlign: 'center', padding: '6px 12px', fontSize: 13, fontWeight: 600 }}>
+          ⚠️ TEST MODE — checkout buttons use LemonSqueezy test-mode URLs. Use a test card (e.g. 4242 4242 4242 4242).
+        </div>
+      )}
       {/* NAV */}
       <nav>
         <div className="nav-inner">
@@ -574,6 +620,9 @@ function App() {
 
       {/* PRICING */}
       <PricingSection />
+
+      {/* TESTIMONIALS */}
+      <TestimonialsSection />
 
       {/* BLOG */}
       <BlogSection />
