@@ -538,7 +538,7 @@ function ProductHuntSection() {
   );
 }
 
-
+function GiscusSection() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current || ref.current.querySelector('iframe')) return;
@@ -566,6 +566,11 @@ function ProductHuntSection() {
         <div className="section-label">Community</div>
         <h2>Questions & feedback</h2>
         <p className="section-sub">Ask questions, share what you built, or leave a review. Sign in with GitHub.</p>
+        <div className="giscus-fallback">
+          <a href="https://github.com/jd4rider/billy-web/discussions" target="_blank" rel="noreferrer" className="btn btn-secondary">
+            💬 Open GitHub Discussions
+          </a>
+        </div>
         <div ref={ref} className="giscus-container" />
       </div>
     </section>
