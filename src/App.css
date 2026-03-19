@@ -201,7 +201,7 @@ nav {
   font-weight: 700;
   margin-bottom: 12px;
 }
-.section-sub { color: var(--muted); margin-bottom: 48px; max-width: 520px; }
+.section-sub { color: var(--muted); margin-bottom: 48px; max-width: 520px; margin-left: auto; margin-right: auto; text-align: center; }
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
