@@ -328,32 +328,34 @@ function NewsletterSection() {
   );
 }
 
-interface BlogPost { slug: string; title: string; date: string; excerpt: string; tags: string[]; coming?: boolean; }
+interface BlogPost { slug: string; url: string; title: string; date: string; excerpt: string; tags: string[]; }
+
+const BLOG_BASE = 'https://jd4rider.github.io/billy-blog/blog';
 
 const blogPosts: BlogPost[] = [
   {
     slug: 'introducing-billy-sh',
+    url: `${BLOG_BASE}/introducing-billy-sh/`,
     title: 'Introducing Billy.sh — Why I Built a Local AI Coding Assistant',
-    date: 'Coming Soon',
+    date: 'Mar 17 2026',
     excerpt: 'GitHub Copilot costs $10/month. Cursor is $20/month. I wanted a fast, private AI pair programmer that runs entirely on my machine — so I built one in Go.',
     tags: ['announcement', 'open-source'],
-    coming: true,
   },
   {
-    slug: 'memory-system-deep-dive',
+    slug: 'how-billys-memory-works',
+    url: `${BLOG_BASE}/how-billys-memory-works/`,
     title: "How Billy's Memory System Works",
-    date: 'Coming Soon',
+    date: 'Mar 17 2026',
     excerpt: "Just say \"remember that I'm building a SaaS in Go\" — Billy stores it and injects it into every future prompt. Here's how the natural language detection works under the hood.",
     tags: ['deep-dive', 'go'],
-    coming: true,
   },
   {
     slug: 'local-ai-good-enough',
+    url: `${BLOG_BASE}/local-ai-good-enough/`,
     title: 'Is Local AI Good Enough for Real Dev Work?',
-    date: 'Coming Soon',
-    excerpt: "I've been coding with qwen2.5-coder:7b locally for a while now. Here's my honest take on where local models shine — and where they still fall short.",
+    date: 'Mar 17 2026',
+    excerpt: "I've been coding with qwen2.5-coder:14b locally for a while now. Here's my honest take on where local models shine — and where they still fall short.",
     tags: ['opinion', 'ollama'],
-    coming: true,
   },
 ];
 
@@ -369,13 +371,12 @@ function BlogSection() {
             <div className="blog-card" key={post.slug}>
               <div className="blog-tags">
                 {post.tags.map(t => <span className="blog-tag" key={t}>{t}</span>)}
-                {post.coming && <span className="blog-tag tag-soon">soon</span>}
               </div>
               <h3>{post.title}</h3>
               <p>{post.excerpt}</p>
               <div className="blog-meta">
                 <span className="blog-date">{post.date}</span>
-                {!post.coming && <a href={`/blog/${post.slug}`} className="blog-read-link">Read →</a>}
+                <a href={post.url} target="_blank" rel="noreferrer" className="blog-read-link">Read →</a>
               </div>
             </div>
           ))}
