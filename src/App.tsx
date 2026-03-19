@@ -184,9 +184,9 @@ function PricingSection() {
               <li><span className="check">✓</span> Priority support (email)</li>
             </ul>
             <div className="pricing-compare">vs. Cursor $20/mo — pay once, done</div>
-            <a href={checkout.premium} className="btn btn-amber" target="_blank" rel="noreferrer">
-              Buy Premium — $49
-            </a>
+            <button className="btn btn-amber" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
+              Premium — Coming Soon
+            </button>
           </div>
 
         </div>
