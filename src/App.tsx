@@ -249,7 +249,7 @@ function PricingSection() {
             </ul>
             <div className="enterprise-ctas">
               <a href="tel:+14063967246" className="btn btn-primary">📞 406-396-7246</a>
-              <a href="mailto:sales@billy.sh" className="btn btn-outline">✉ sales@billy.sh</a>
+              <a href="mailto:jd4rider@gmail.com" className="btn btn-outline">✉ jd4rider@gmail.com</a>
             </div>
           </div>
         </div>
