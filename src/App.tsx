@@ -612,6 +612,44 @@ function DevlogSection() {
   );
 }
 
+function NavHamburger({ docsUrl, githubUrl }: { docsUrl: string; githubUrl: string }) {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  return (
+    <nav>
+      <div className="nav-inner">
+        <a href="/" className="nav-logo">
+          <img src={process.env.PUBLIC_URL + '/favicon.svg'} alt="Billy goat logo" />
+          Billy.sh
+        </a>
+        <ul className="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#devlog">Devlog</a></li>
+          <li><a href={docsUrl} target="_blank" rel="noreferrer">Docs</a></li>
+          <li>
+            <a href={githubUrl} className="btn btn-outline" target="_blank" rel="noreferrer">★ GitHub</a>
+          </li>
+        </ul>
+        <button className="nav-hamburger" onClick={() => setOpen(o => !o)} aria-label="Menu">
+          {open ? '✕' : '☰'}
+        </button>
+      </div>
+      <div className={`nav-mobile${open ? ' open' : ''}`}>
+        <a href="#features" onClick={close}>Features</a>
+        <a href="#install" onClick={close}>Install</a>
+        <a href="#pricing" onClick={close}>Pricing</a>
+        <a href="#blog" onClick={close}>Blog</a>
+        <a href="#devlog" onClick={close}>Devlog</a>
+        <a href={docsUrl} target="_blank" rel="noreferrer" onClick={close}>Docs</a>
+        <a href={githubUrl} target="_blank" rel="noreferrer" onClick={close}>★ GitHub</a>
+      </div>
+    </nav>
+  );
+}
+
 function App() {
   return (
     <div>
@@ -621,27 +659,7 @@ function App() {
         </div>
       )}
       {/* NAV */}
-      <nav>
-        <div className="nav-inner">
-          <a href="/" className="nav-logo">
-            <img src={process.env.PUBLIC_URL + '/favicon.svg'} alt="Billy goat logo" />
-            Billy.sh
-          </a>
-          <ul className="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#install">Install</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#blog">Blog</a></li>
-            <li><a href="#devlog">Devlog</a></li>
-            <li><a href={DOCS_URL} target="_blank" rel="noreferrer">Docs</a></li>
-            <li>
-              <a href={GITHUB_URL} className="btn btn-outline" target="_blank" rel="noreferrer">
-                ★ GitHub
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <NavHamburger docsUrl={DOCS_URL} githubUrl={GITHUB_URL} />
 
       {/* HERO */}
       <section className="hero">
