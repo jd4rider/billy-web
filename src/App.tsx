@@ -35,17 +35,120 @@ interface Feature {
   icon: string;
   title: string;
   desc: string;
+  detail: { body: string; bullets: string[]; code?: string; };
 }
 
 const features: Feature[] = [
-  { icon: '🔒', title: 'Fully Private', desc: 'All AI runs on your machine via Ollama. No data ever leaves your computer.' },
-  { icon: '💸', title: 'No Subscription', desc: 'Pay once for Pro or use the free tier forever. No monthly fees, no API keys.' },
-  { icon: '🤖', title: 'Agentic Mode', desc: 'Billy proposes shell commands and runs them with your approval. Reads output and self-debugs until it works.' },
-  { icon: '🧠', title: 'Memory System', desc: 'Billy learns about you over time. Just say "remember that..." — it saves automatically.' },
-  { icon: '📜', title: 'Session History', desc: 'Full conversation history with an interactive session picker. Resume any chat with /history.' },
-  { icon: '⌨️', title: 'Command Picker', desc: 'Type / to open a live-filtered command popup. Navigate with arrow keys, execute with Enter.' },
-  { icon: '🔄', title: 'Model Switching', desc: 'Switch between any Ollama model on the fly. Pull new models with /pull without leaving the app.' },
-  { icon: '📊', title: 'Progress Bars', desc: 'Spring-physics progress bars and collapsible command output — click or Ctrl+X to expand.' },
+  {
+    icon: '🔒', title: 'Fully Private',
+    desc: 'All AI runs on your machine via Ollama. No data ever leaves your computer.',
+    detail: {
+      body: "Every token of every conversation stays on your hardware. There's no telemetry, no usage analytics, no model training on your code. Once the model is downloaded, Billy works fully offline.",
+      bullets: [
+        'Zero network calls during inference — pure local compute',
+        'Perfect for proprietary code, NDA projects, and sensitive environments',
+        'No account required — not even an email address',
+        'All history stored in ~/.localai/history.db on your machine only',
+      ],
+    },
+  },
+  {
+    icon: '💸', title: 'No Subscription',
+    desc: 'Pay once for Pro or use the free tier forever. No monthly fees, no API keys.',
+    detail: {
+      body: 'The SaaS AI tools add up fast. Copilot is $10/month, Cursor is $20/month — that\'s $360/year before you\'ve written a line of code. Billy is a one-time purchase that pays for itself in weeks.',
+      bullets: [
+        'Free tier: unlimited chat, model switching, full TUI — forever',
+        'Pro ($19 one-time): memory persistence, custom endpoints, 2 machines',
+        'Premium: coming soon — more activations + priority features',
+        'Compare: Copilot $120/yr · Cursor $240/yr · Billy $19 once',
+      ],
+    },
+  },
+  {
+    icon: '🤖', title: 'Agentic Mode',
+    desc: 'Billy proposes shell commands and runs them with your approval. Reads output and self-debugs until it works.',
+    detail: {
+      body: 'When Billy suggests a shell command, it detects the code block and asks permission before running it. It reads the output, feeds it back to the model, and keeps iterating until the task is done.',
+      bullets: [
+        'Three approval options: Yes (once) · Always (session) · No',
+        'Output is captured and injected back into the conversation',
+        'Self-debugs on non-zero exit codes automatically',
+        'Toggle between Agentic and Safe mode with /mode',
+      ],
+      code: 'you › fix the failing test\nBilly › Running: go test ./...\n  ┌─ Run command? ──────────────────┐\n  │  go test ./...                  │\n  │  [Y]es  [A]lways  [N]o          │\n  └─────────────────────────────────┘',
+    },
+  },
+  {
+    icon: '🧠', title: 'Memory System',
+    desc: 'Billy learns about you over time. Just say "remember that..." — it saves automatically.',
+    detail: {
+      body: "You shouldn't have to re-establish context every session. Just talk to Billy like a collaborator — it detects save intent and stores facts automatically. On Pro+, memories persist indefinitely across every session.",
+      bullets: [
+        '"Remember that I\'m building a SaaS in Go" — just say it',
+        'Stored locally in SQLite, never synced to any server',
+        'Injected into every conversation as context automatically',
+        'Manage with /memory — list, forget by ID, or clear all',
+        'Free tier: session-only · Pro+: persistent across all sessions',
+      ],
+    },
+  },
+  {
+    icon: '📜', title: 'Session History',
+    desc: 'Full conversation history with an interactive session picker. Resume any chat with /history.',
+    detail: {
+      body: 'Every conversation is saved automatically. Open the session picker to browse, search, and resume any past chat — with full context restored so you can pick up exactly where you left off.',
+      bullets: [
+        'All sessions saved locally to ~/.localai/history.db',
+        '/history opens an interactive fuzzy-search session picker',
+        '/session save <name> creates a named checkpoint',
+        '/compact summarises long sessions to free up context window',
+        'Sessions never expire or get deleted automatically',
+      ],
+    },
+  },
+  {
+    icon: '⌨️', title: 'Command Picker',
+    desc: 'Type / to open a live-filtered command popup. Navigate with arrow keys, execute with Enter.',
+    detail: {
+      body: "No need to memorise every command. Type / in the input and a live-filtered popup appears with every available command. It's the fastest way to navigate Billy without breaking your flow.",
+      bullets: [
+        'Fuzzy-filtered as you type — finds commands instantly',
+        'Arrow keys to navigate, Enter to execute, Esc to dismiss',
+        'Shows commands with descriptions inline',
+        'Available commands: /mode, /memory, /model, /pull, /history, /compact, /hint, /backend and more',
+      ],
+      code: 'you › /mo\n  ┌─ Commands ──────────────────────┐\n  │ ▶ /mode      Switch chat mode   │\n  │   /model     Pick Ollama model  │\n  │   /memory    Manage memories    │\n  └─────────────────────────────────┘',
+    },
+  },
+  {
+    icon: '🔄', title: 'Model Switching',
+    desc: 'Switch between any Ollama model on the fly. Pull new models with /pull without leaving the app.',
+    detail: {
+      body: 'Billy is model-agnostic. Use any model Ollama supports — code models, general models, multimodal models. Pro+ users can also point Billy at any OpenAI-compatible endpoint like Groq, LM Studio, or your own server.',
+      bullets: [
+        '/model opens a picker showing all locally available models',
+        '/pull <name> downloads a new model without leaving the app',
+        'Pro+: /backend lets you switch to any OpenAI-compatible API',
+        'Works with Ollama, Groq, LM Studio, or a self-hosted endpoint',
+        'Recommended default: qwen2.5-coder:14b for coding tasks',
+      ],
+    },
+  },
+  {
+    icon: '📊', title: 'Progress Bars',
+    desc: 'Spring-physics progress bars and collapsible command output — click or Ctrl+X to expand.',
+    detail: {
+      body: 'Long-running commands have animated progress bars. Output appears in collapsible blocks so the chat stays readable. Teaching Mode replaces auto-run commands with "type this yourself" boxes — great for learning.',
+      bullets: [
+        'Spring-physics animated progress bars during command execution',
+        'Click any output block or press Ctrl+X to expand/collapse',
+        'Long outputs are truncated in-view but fully accessible',
+        'Teaching Mode (/mode teach): shows commands to type instead of running them',
+        '/hint requests a step-by-step explanation of the last suggestion',
+      ],
+    },
+  },
 ];
 
 const installCommands: Record<string, string> = {
@@ -55,6 +158,68 @@ const installCommands: Record<string, string> = {
   'Scoop (Windows)':       `scoop bucket add billy https://github.com/jd4rider/scoop-billy\nscoop install billy`,
   'Build from source':     `git clone ${GITHUB_URL}.git\ncd billy-app && go build -o billy ./cmd/billy`,
 };
+
+function FeatureModal({ feature, onClose }: { feature: Feature; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-panel" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true">
+        <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+        <div className="modal-icon">{feature.icon}</div>
+        <h2 className="modal-title">{feature.title}</h2>
+        <p className="modal-body">{feature.detail.body}</p>
+        {feature.detail.code && (
+          <pre className="modal-code">{feature.detail.code}</pre>
+        )}
+        <ul className="modal-bullets">
+          {feature.detail.bullets.map(b => <li key={b}>{b}</li>)}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function FeaturesSection() {
+  const [active, setActive] = useState<Feature | null>(null);
+  return (
+    <>
+      <section className="section" id="features">
+        <div className="container">
+          <div className="section-label">Features</div>
+          <h2>Everything you need, nothing you don't</h2>
+          <p className="section-sub">Built with Go + Bubble Tea. Fast, lightweight, terminal-native.</p>
+          <div className="features-grid">
+            {features.map(f => (
+              <div
+                className="feature-card feature-card-clickable"
+                key={f.title}
+                onClick={() => setActive(f)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => e.key === 'Enter' && setActive(f)}
+              >
+                <div className="feature-icon">{f.icon}</div>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+                <span className="feature-learn">Learn more →</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {active && <FeatureModal feature={active} onClose={() => setActive(null)} />}
+    </>
+  );
+}
 
 function TerminalDemo() {
   return (
@@ -703,22 +868,7 @@ function App() {
       */}
 
       {/* FEATURES */}
-      <section className="section" id="features">
-        <div className="container">
-          <div className="section-label">Features</div>
-          <h2>Everything you need, nothing you don't</h2>
-          <p className="section-sub">Built with Go + Bubble Tea. Fast, lightweight, terminal-native.</p>
-          <div className="features-grid">
-            {features.map(f => (
-              <div className="feature-card" key={f.title}>
-                <div className="feature-icon">{f.icon}</div>
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FeaturesSection />
 
       {/* INSTALL */}
       <InstallSection />
