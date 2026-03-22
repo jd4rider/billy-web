@@ -365,7 +365,7 @@ function PricingSection() {
               <div className="pricing-price">$14 <span>/seat</span></div>
               <div className="pricing-desc">Volume pricing for development teams.</div>
               <ul className="pricing-features">
-                <li><span className="check">✓</span> Everything in Premium</li>
+                <li><span className="check">✓</span> Everything in Pro</li>
                 <li><span className="check">✓</span> Volume discounts — pay less per seat as you scale</li>
                 <li><span className="check">✓</span> 5, 10, or 25 license keys — each works independently</li>
                 <li><span className="check">✓</span> Each dev runs fully local, no shared infra</li>
