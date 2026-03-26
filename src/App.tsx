@@ -3,7 +3,7 @@ import './App.css';
 
 const SUBSCRIBE_URL = 'https://billy-worker.billysh.workers.dev/subscribe';
 
-const DOCS_URL = 'https://jd4rider.github.io/billy-starlight';
+const DOCS_URL = 'https://docs.billysh.online';
 const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
 const INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-app/main/scripts/install.sh';
 
@@ -504,7 +504,7 @@ function NewsletterSection() {
 
 interface BlogPost { slug: string; url: string; title: string; date: string; excerpt: string; tags: string[]; }
 
-const BLOG_BASE = 'https://jd4rider.github.io/billy-blog/blog';
+const BLOG_BASE = 'https://blog.billysh.online/blog';
 
 const blogPosts: BlogPost[] = [
   {
