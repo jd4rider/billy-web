@@ -496,41 +496,93 @@ nav {
   margin-top: 40px;
   text-align: left;
 }
-.proof-carousel-shell {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
-  align-items: center;
+.proof-featured {
   margin-top: 40px;
 }
-.proof-carousel {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 4px 6px 12px;
+.proof-featured-card {
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 32%),
+    linear-gradient(145deg, rgba(22, 27, 34, 0.98), rgba(13, 17, 23, 0.98));
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 20px;
+  padding: 28px;
   text-align: left;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
 }
-.proof-carousel::-webkit-scrollbar {
-  height: 10px;
+.proof-featured-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
 }
-.proof-carousel::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 999px;
+.proof-featured-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.proof-featured-counter {
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.proof-featured-nav {
+  display: flex;
+  gap: 10px;
+}
+.proof-featured-title {
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.proof-featured-detail {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 64ch;
+  margin-bottom: 22px;
+}
+.proof-featured-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.proof-featured-note {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.proof-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 40px;
+}
+.proof-thumb {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s, background 0.2s;
+}
+.proof-thumb:hover {
+  border-color: var(--accent2);
+  background: var(--bg3);
+  transform: translateY(-1px);
+}
+.proof-thumb.active {
+  border-color: rgba(56, 189, 248, 0.7);
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.1), rgba(22, 27, 34, 1));
+  box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.18);
 }
 .testimonial-card {
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
-}
-.proof-card-slide {
-  flex: 0 0 calc((100% - 48px) / 3.15);
-  min-width: 300px;
-  scroll-snap-align: start;
 }
 .testimonial-quote {
   font-size: 1rem;
@@ -569,6 +621,21 @@ nav {
   font-size: 0.9rem;
 }
 .proof-link:hover { text-decoration: none; opacity: 0.82; }
+.proof-thumb-label {
+  display: inline-flex;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 8px;
+}
+.proof-thumb-title {
+  display: block;
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
 .proof-carousel-hint {
   color: var(--muted);
   font-size: 0.82rem;
@@ -734,10 +801,11 @@ footer {
   .footer-inner { flex-direction: column; text-align: center; }
   .footer-contact { justify-content: center; }
   .blog-section-head { margin-bottom: 18px; }
-  .proof-carousel-shell,
   .blog-carousel-shell { grid-template-columns: 1fr; }
-  .carousel-btn { display: none; }
-  .proof-card-slide { flex-basis: calc(100% - 42px); min-width: calc(100% - 42px); }
+  .proof-featured-card { padding: 22px; }
+  .proof-featured-top { flex-direction: column; }
+  .proof-featured-nav { width: 100%; justify-content: space-between; }
+  .proof-thumbnails { grid-template-columns: 1fr; }
   .blog-card-slide { flex-basis: calc(100% - 42px); min-width: calc(100% - 42px); }
 }
 
@@ -876,9 +944,7 @@ footer {
 }
 
 @media (max-width: 960px) {
-  .proof-card-slide {
-    flex-basis: calc((100% - 24px) / 2.15);
-  }
+  .proof-thumbnails { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .blog-card-slide {
     flex-basis: calc((100% - 20px) / 2.2);
   }
