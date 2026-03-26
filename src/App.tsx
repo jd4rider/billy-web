@@ -573,6 +573,14 @@ const BLOG_BASE = 'https://blog.billysh.online/blog';
 
 const blogPosts: BlogPost[] = [
   {
+    slug: 'what-local-coding-models-actually-work',
+    url: `${BLOG_BASE}/what-local-coding-models-actually-work/`,
+    title: 'What Local Coding Models Actually Work in a Terminal Workflow?',
+    date: 'Mar 26 2026',
+    excerpt: 'A practical rubric for evaluating local coding models in Ollama: latency, patch quality, command discipline, repo awareness, and where each model actually fits.',
+    tags: ['deep-dive', 'ollama', 'benchmark'],
+  },
+  {
     slug: 'introducing-billy-sh',
     url: `${BLOG_BASE}/introducing-billy-sh/`,
     title: 'Introducing Billy — Why I Built a Local AI Coding Assistant',
@@ -599,15 +607,47 @@ const blogPosts: BlogPost[] = [
 ];
 
 function BlogSection() {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (direction: 1 | -1) => {
+    const el = carouselRef.current;
+    if (!el) return;
+    el.scrollBy({ left: el.clientWidth * 0.82 * direction, behavior: 'smooth' });
+  };
+
   return (
     <section className="section" id="blog">
       <div className="container">
-        <div className="section-label">Blog</div>
-        <h2>From the author</h2>
-        <p className="section-sub">Development insights, tutorials, and the story of building Billy.</p>
-        <div className="blog-grid">
+        <div className="blog-section-head">
+          <div>
+            <div className="section-label">Blog</div>
+            <h2>From the author</h2>
+            <p className="section-sub">Development insights, tutorials, and the story of building Billy.</p>
+          </div>
+          <div className="blog-section-actions">
+            <a
+              href="https://blog.billysh.online/blog/"
+              className="btn btn-outline"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackCta('blog_index', 'homepage_blog_header')}
+            >
+              View all posts
+            </a>
+          </div>
+        </div>
+        <div className="blog-carousel-shell">
+          <button
+            type="button"
+            className="carousel-btn"
+            aria-label="Scroll blog posts left"
+            onClick={() => scrollCarousel(-1)}
+          >
+            ←
+          </button>
+          <div className="blog-carousel" ref={carouselRef}>
           {blogPosts.map(post => (
-            <div className="blog-card" key={post.slug}>
+            <div className="blog-card blog-card-slide" key={post.slug}>
               <div className="blog-tags">
                 {post.tags.map(t => <span className="blog-tag" key={t}>{t}</span>)}
               </div>
@@ -620,6 +660,16 @@ function BlogSection() {
             </div>
           ))}
         </div>
+          <button
+            type="button"
+            className="carousel-btn"
+            aria-label="Scroll blog posts right"
+            onClick={() => scrollCarousel(1)}
+          >
+            →
+          </button>
+        </div>
+        <p className="blog-carousel-hint">Use the arrows or swipe to browse all posts.</p>
       </div>
     </section>
   );
