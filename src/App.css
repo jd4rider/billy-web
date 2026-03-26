@@ -509,6 +509,36 @@ nav {
   margin-bottom: 16px;
   font-style: italic;
 }
+.proof-label {
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--bg3);
+  color: var(--accent2);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+.proof-title {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.proof-detail {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.proof-link {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.proof-link:hover { text-decoration: none; opacity: 0.82; }
 .testimonial-author {
   display: flex;
   align-items: center;

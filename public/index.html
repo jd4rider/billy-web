@@ -7,27 +7,33 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0d1117" />
-    <meta name="description" content="Billy is a GitHub Copilot CLI alternative that runs fully offline via Ollama. No subscription, no cloud, no data leaving your machine. One-time purchase from $19." />
-    <meta name="keywords" content="ollama coding assistant, github copilot alternative, offline ai coding, local ai cli, copilot cli alternative, no subscription ai, open source copilot, ai pair programmer local" />
+    <meta name="description" content="Billy is a local AI coding assistant for the terminal that runs fully offline via Ollama. GitHub Copilot CLI alternative with no subscription, no cloud, and one-time pricing from $19." />
+    <meta name="keywords" content="local ai coding assistant, offline ai coding assistant, terminal ai coding assistant, ollama coding assistant, github copilot cli alternative, cursor alternative, local ai cli, no subscription ai" />
+    <meta name="author" content="Jonathan Forrider" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="google-site-verification" content="KwTFLDsjKtARSz9OGv4cJjnPjDU20Z_02vCWbWvlCV0" />
     <link rel="canonical" href="https://billysh.online/" />
+    <link rel="sitemap" type="application/xml" href="https://billysh.online/sitemap.xml" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://billysh.online/" />
     <meta property="og:site_name" content="Billy" />
-    <meta property="og:title" content="Billy — Offline AI Coding Assistant for Ollama | No Subscription" />
-    <meta property="og:description" content="GitHub Copilot CLI alternative that runs fully offline. Powered by Ollama. Agentic mode, memory system, full history. Pay once from $19 — no monthly fees ever." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Billy — Local AI Coding Assistant for the Terminal | Ollama" />
+    <meta property="og:description" content="Offline terminal AI coding assistant powered by Ollama. GitHub Copilot CLI alternative with one-time pricing, local memory, and agentic shell workflows." />
     <meta property="og:image" content="https://billysh.online/product-images/billy-terminal-demo.png" />
+    <meta property="og:image:alt" content="Billy terminal interface showing a local AI coding session" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Billy — Offline AI Coding Assistant | No Subscription" />
-    <meta name="twitter:description" content="GitHub Copilot CLI alternative running fully offline via Ollama. Pay once from $19 — no monthly fees, no cloud, no data leaving your machine." />
+    <meta name="twitter:title" content="Billy — Local AI Coding Assistant for the Terminal" />
+    <meta name="twitter:description" content="Offline AI coding assistant powered by local Ollama models. No subscription, no cloud, one-time pricing from $19." />
     <meta name="twitter:image" content="https://billysh.online/product-images/billy-terminal-demo.png" />
+    <meta name="twitter:image:alt" content="Billy terminal interface showing a local AI coding session" />
 
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Billy — Offline AI Coding Assistant for Ollama | No Subscription Required</title>
+    <title>Billy — Local AI Coding Assistant for the Terminal | Ollama</title>
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -38,13 +44,75 @@
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "macOS, Linux, Windows",
       "url": "https://billysh.online/",
-      "description": "Local AI coding assistant powered by Ollama. No subscription required.",
+      "description": "Local AI coding assistant for the terminal powered by Ollama. No subscription required.",
+      "downloadUrl": "https://github.com/jd4rider/billy-app/releases",
+      "featureList": [
+        "Runs fully offline on your machine",
+        "Agentic shell command workflows with approval prompts",
+        "Local memory system and full session history",
+        "Works with Ollama and OpenAI-compatible backends",
+        "Install via script, Homebrew, or Scoop"
+      ],
       "offers": [
         { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free Tier" },
         { "@type": "Offer", "price": "19", "priceCurrency": "USD", "name": "Pro" },
         { "@type": "Offer", "price": "49", "priceCurrency": "USD", "name": "Premium" }
       ],
-      "author": { "@type": "Person", "name": "Jonathan Forrider" }
+      "author": { "@type": "Person", "name": "Jonathan Forrider" },
+      "sameAs": [
+        "https://github.com/jd4rider/billy-app",
+        "https://docs.billysh.online/",
+        "https://blog.billysh.online/"
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need an internet connection to use Billy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Once Ollama and your chosen model are downloaded, Billy works entirely offline."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which models does Billy support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Billy works with any model available via Ollama, including qwen2.5-coder, codellama, deepseek-coder, llama3, and mistral."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Billy different from GitHub Copilot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Billy runs locally via Ollama with no subscription fee and no cloud dependency. Your code stays on your machine, and Billy can run shell commands with your approval."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Billy work on Windows?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Billy works on Windows via Scoop or the downloadable Windows binary from GitHub Releases."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the Pro license limit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pro allows activation on two machines, such as a home machine and a work laptop. Premium allows three machines."
+          }
+        }
+      ]
     }
     </script>
 
@@ -67,8 +135,8 @@
          React mounts over this once JS loads. Hidden via inline style to avoid FOUC,
          but fully readable by Googlebot and other crawlers. -->
     <div id="seo-static" style="display:none" aria-hidden="true">
-      <h1>Billy — Offline AI Coding Assistant for Ollama</h1>
-      <p>Billy is a GitHub Copilot CLI alternative that runs fully offline via Ollama. No subscription, no API keys, no data leaving your machine. Pay once from $19 and own it forever.</p>
+      <h1>Billy — Local AI Coding Assistant for the Terminal</h1>
+      <p>Billy is a local AI coding assistant for the terminal and a GitHub Copilot CLI alternative that runs fully offline via Ollama. No subscription, no API keys, no data leaving your machine. Pay once from $19 and own it forever.</p>
 
       <section>
         <h2>Why Billy?</h2>
@@ -99,6 +167,11 @@
           <li><strong>Enterprise</strong> — Custom pricing. Unlimited seats, self-hosted option, SLA. Call 406-396-7246.</li>
         </ul>
         <p>Compare: GitHub Copilot $120/yr · Cursor $240/yr · Billy $19 once.</p>
+      </section>
+
+      <section>
+        <h2>Billy vs GitHub Copilot and Cursor</h2>
+        <p>Billy is built for developers who want a local AI coding assistant in the terminal instead of a monthly subscription. It runs offline with Ollama, supports agentic shell workflows, and keeps your code on your own machine.</p>
       </section>
 
       <section>

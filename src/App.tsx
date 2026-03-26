@@ -76,7 +76,7 @@ const features: Feature[] = [
     detail: {
       body: 'The SaaS AI tools add up fast. Copilot is $10/month, Cursor is $20/month — that\'s $360/year before you\'ve written a line of code. Billy is a one-time purchase that pays for itself in weeks.',
       bullets: [
-        'Free tier: unlimited chat, model switching, full TUI — forever',
+        'Free tier: 20 messages per session, model switching, full TUI — forever',
         'Pro ($19 one-time): memory persistence, custom endpoints, 2 machines',
         'Premium: coming soon — more activations + priority features',
         'Compare: Copilot $120/yr · Cursor $240/yr · Billy $19 once',
@@ -249,7 +249,7 @@ function TerminalDemo() {
         <span className="term-title">billy</span>
       </div>
       <div className="terminal-body">
-        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.1-alpha · mistral · FREE</span></div>
+        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.8 · qwen2.5-coder · FREE</span></div>
         <div className="t-dim">─────────────────────────────────────</div>
         <div><span className="t-prompt">you › </span><span className="t-cmd">Remember that I'm building a SaaS in Go</span></div>
         <div><span className="t-billy">Billy › </span><span className="t-res">Got it! I'll remember that you're building a SaaS product in Go. 🐐</span></div>
@@ -575,7 +575,7 @@ const blogPosts: BlogPost[] = [
   {
     slug: 'introducing-billy-sh',
     url: `${BLOG_BASE}/introducing-billy-sh/`,
-    title: 'Introducing Billy.sh — Why I Built a Local AI Coding Assistant',
+    title: 'Introducing Billy — Why I Built a Local AI Coding Assistant',
     date: 'Mar 17 2026',
     excerpt: 'GitHub Copilot costs $10/month. Cursor is $20/month. I wanted a fast, private AI pair programmer that runs entirely on my machine — so I built one in Go.',
     tags: ['announcement', 'open-source'],
@@ -730,35 +730,81 @@ const devlogEntries: DevlogEntry[] = [
 // ── Testimonials ─────────────────────────────────────────────────────────────
 // Add real quotes here as they come in. Name + role + quote is all you need.
 // For Product Hunt reviews, link to the PH page instead of a URL.
-interface Testimonial { name: string; role: string; quote: string; avatar?: string; }
+interface ProofItem {
+  label: string;
+  title: string;
+  detail: string;
+  href: string;
+  cta: string;
+  target: string;
+  location: string;
+  external?: boolean;
+}
 
-const testimonials: Testimonial[] = [
-  // Placeholder — replace with real user quotes as they come in.
-  // {
-  //   name: 'Jane D.',
-  //   role: 'Senior SWE at Acme',
-  //   quote: 'Replaced Copilot CLI on day one. No API bills, same quality.',
-  // },
+const proofItems: ProofItem[] = [
+  {
+    label: 'Shipping',
+    title: 'Five prerelease builds shipped in three days',
+    detail: 'Billy shipped public releases from v0.1.4-alpha through v0.1.8-alpha between March 17 and March 19, 2026.',
+    href: `${GITHUB_URL}/releases`,
+    cta: 'View releases',
+    target: 'releases',
+    location: 'proof_shipping',
+    external: true,
+  },
+  {
+    label: 'Install',
+    title: 'Cross-platform installs are already live',
+    detail: 'Install Billy via shell script, Homebrew, or Scoop on macOS, Linux, and Windows.',
+    href: '#install',
+    cta: 'See install options',
+    target: 'install',
+    location: 'proof_install',
+  },
+  {
+    label: 'Docs',
+    title: 'Public docs, blog, and devlog are live',
+    detail: 'The docs, blog, and shipping log all live on their own public subdomains and update alongside the app.',
+    href: DOCS_URL,
+    cta: 'Read the docs',
+    target: 'docs',
+    location: 'proof_docs',
+    external: true,
+  },
+  {
+    label: 'Ownership',
+    title: 'Open source code and secure checkout are live',
+    detail: 'You can inspect the source on GitHub and upgrade through the live checkout at shop.billysh.online today.',
+    href: GITHUB_URL,
+    cta: 'Inspect the code',
+    target: 'github',
+    location: 'proof_ownership',
+    external: true,
+  },
 ];
 
-function TestimonialsSection() {
-  if (testimonials.length === 0) return null; // hide until we have real quotes
+function ProofSection() {
   return (
-    <section className="section" id="reviews">
+    <section className="section" id="proof">
       <div className="container" style={{ textAlign: 'center' }}>
-        <div className="section-label">Reviews</div>
-        <h2>What developers are saying</h2>
+        <div className="section-label">Proof</div>
+        <h2>Real proof, not placeholder hype</h2>
+        <p className="section-sub">Billy is already shipping in public with live installs, public docs, and a real checkout.</p>
         <div className="testimonials-grid">
-          {testimonials.map((t, i) => (
-            <div key={i} className="testimonial-card">
-              <p className="testimonial-quote">"{t.quote}"</p>
-              <div className="testimonial-author">
-                {t.avatar && <img src={t.avatar} alt={t.name} className="testimonial-avatar" />}
-                <div>
-                  <strong>{t.name}</strong>
-                  <span className="testimonial-role">{t.role}</span>
-                </div>
-              </div>
+          {proofItems.map((item) => (
+            <div key={item.title} className="testimonial-card">
+              <div className="proof-label">{item.label}</div>
+              <h3 className="proof-title">{item.title}</h3>
+              <p className="proof-detail">{item.detail}</p>
+              <a
+                href={item.href}
+                className="proof-link"
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noreferrer' : undefined}
+                onClick={() => trackCta(item.target, item.location)}
+              >
+                {item.cta} →
+              </a>
             </div>
           ))}
         </div>
@@ -783,7 +829,7 @@ function ProductHuntSection() {
           >
             <img
               src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=billy-sh&theme=dark"
-              alt="Billy.sh - Local AI coding assistant, no subscription | Product Hunt"
+              alt="Billy - local AI coding assistant, no subscription | Product Hunt"
               style={{ width: 250, height: 54 }}
             />
           </a>
@@ -918,12 +964,9 @@ function App() {
       {/* HERO */}
       <section className="hero">
         <div className="container">
-          <div className="hero-badge">
-            <span className="badge badge-alpha">Alpha — expect rough edges</span>
-          </div>
           <h1>
-            AI coding assistant<br />
-            <span>without the monthly bill.</span>
+            Local AI coding assistant<br />
+            <span>for your terminal.</span>
           </h1>
           <p>
             Billy runs entirely on your machine using local Ollama models.
@@ -965,8 +1008,8 @@ function App() {
       {/* PRICING */}
       <PricingSection />
 
-      {/* TESTIMONIALS */}
-      <TestimonialsSection />
+      {/* PROOF */}
+      <ProofSection />
 
       {/* PRODUCT HUNT */}
       <ProductHuntSection />
