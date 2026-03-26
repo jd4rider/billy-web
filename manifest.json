@@ -1,6 +1,6 @@
 {
-  "short_name": "Billy.sh",
-  "name": "Billy.sh — Local AI Assistant",
+  "short_name": "Billy",
+  "name": "Billy — Local AI Assistant",
   "description": "AI coding assistant powered by local Ollama. No subscription required.",
   "icons": [
     {
