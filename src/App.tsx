@@ -841,19 +841,15 @@ function ProofSection() {
     setActiveIndex(next);
   };
 
-  const getOffset = (index: number) => {
-    let diff = index - activeIndex;
-    if (diff > proofItems.length / 2) diff -= proofItems.length;
-    if (diff < -proofItems.length / 2) diff += proofItems.length;
-    return diff;
+  const getStackDepth = (index: number) => {
+    return (index - activeIndex + proofItems.length) % proofItems.length;
   };
 
-  const getPageClass = (offset: number) => {
-    if (offset === 0) return 'is-active';
-    if (offset === 1) return 'is-next';
-    if (offset === -1) return 'is-prev';
-    if (offset > 1) return 'is-deep-next';
-    return 'is-deep-prev';
+  const getCardClass = (depth: number) => {
+    if (depth === 0) return 'is-active';
+    if (depth === 1) return 'is-next';
+    if (depth === 2) return 'is-third';
+    return 'is-hidden';
   };
 
   return (
@@ -862,27 +858,26 @@ function ProofSection() {
         <div className="section-label">Proof</div>
         <h2>Real proof, not placeholder hype</h2>
         <p className="section-sub">Billy is already shipping in public with live installs, public docs, and a real checkout.</p>
-        <div className="proof-book-shell">
-          <div className="proof-book-stage">
-            <div className="proof-book-spine" aria-hidden="true" />
-            <div className="proof-book">
+        <div className="proof-stack-shell">
+          <div className="proof-stack-stage">
+            <div className="proof-stack-deck">
               {proofItems.map((item, index) => {
-                const offset = getOffset(index);
+                const depth = getStackDepth(index);
                 return (
                   <article
                     key={item.title}
-                    className={`proof-page ${getPageClass(offset)}`}
-                    aria-hidden={offset !== 0}
+                    className={`proof-card ${getCardClass(depth)}`}
+                    aria-hidden={depth !== 0}
                   >
-                    <div className="proof-page-meta">
+                    <div className="proof-card-meta">
                       <div className="proof-label">{item.label}</div>
-                      <div className="proof-page-counter">
+                      <div className="proof-card-counter">
                         {String(index + 1).padStart(2, '0')} / {String(proofItems.length).padStart(2, '0')}
                       </div>
                     </div>
-                    <h3 className="proof-page-title">{item.title}</h3>
-                    <p className="proof-page-detail">{item.detail}</p>
-                    <div className="proof-page-actions">
+                    <h3 className="proof-card-title">{item.title}</h3>
+                    <p className="proof-card-detail">{item.detail}</p>
+                    <div className="proof-card-actions">
                       <a
                         href={item.href}
                         className="btn btn-primary"
@@ -892,14 +887,14 @@ function ProofSection() {
                       >
                         {item.cta}
                       </a>
-                      <span className="proof-page-note">Public artifact, live today</span>
+                      <span className="proof-card-note">Public artifact, live today</span>
                     </div>
                   </article>
                 );
               })}
             </div>
           </div>
-          <div className="proof-book-controls">
+          <div className="proof-stack-controls">
             <button
               type="button"
               className="carousel-btn"
@@ -908,7 +903,7 @@ function ProofSection() {
             >
               ←
             </button>
-            <div className="proof-book-tabs" role="tablist" aria-label="Proof pages">
+            <div className="proof-stack-tabs" role="tablist" aria-label="Proof cards">
             {proofItems.map((item, index) => (
               <button
                 key={item.title}
@@ -932,7 +927,7 @@ function ProofSection() {
             </button>
           </div>
         </div>
-        <p className="proof-carousel-hint">Flip through the stack with the arrows, or jump to a page using the tabs.</p>
+        <p className="proof-carousel-hint">Flip through the deck with the arrows, or jump to a card using the tabs.</p>
       </div>
     </section>
   );
