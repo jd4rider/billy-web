@@ -1,6 +1,6 @@
-# Billy.sh — Website
+# Billy — Website
 
-Marketing and sales website for **Billy.sh**, built with React + TypeScript, hosted on GitHub Pages.
+Marketing and sales website for **Billy**, built with React + TypeScript, hosted on GitHub Pages.
 
 ## Planned Sections
 - Hero / landing

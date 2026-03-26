@@ -539,7 +539,7 @@ function BlogSection() {
       <div className="container">
         <div className="section-label">Blog</div>
         <h2>From the author</h2>
-        <p className="section-sub">Development insights, tutorials, and the story of building Billy.sh.</p>
+        <p className="section-sub">Development insights, tutorials, and the story of building Billy.</p>
         <div className="blog-grid">
           {blogPosts.map(post => (
             <div className="blog-card" key={post.slug}>
@@ -563,6 +563,17 @@ function BlogSection() {
 interface DevlogEntry { version: string; date: string; title: string; items: string[]; }
 
 const devlogEntries: DevlogEntry[] = [
+  {
+    version: 'site',
+    date: 'March 2026',
+    title: 'Custom domains live: billysh.online, docs, and blog',
+    items: [
+      'Main site now lives at billysh.online instead of a GitHub Pages path',
+      'Docs moved to docs.billysh.online and the blog moved to blog.billysh.online',
+      'Repo homepage links, in-app upgrade prompts, and README URLs updated to the new domains',
+      'GitHub Pages HTTPS rollout is enabled per-host as certificates become available',
+    ],
+  },
   {
     version: 'v0.1.8-alpha',
     date: 'March 2026',
@@ -794,7 +805,7 @@ function NavHamburger({ docsUrl, githubUrl }: { docsUrl: string; githubUrl: stri
       <div className="nav-inner">
         <a href="/" className="nav-logo">
           <img src={process.env.PUBLIC_URL + '/favicon.svg'} alt="Billy goat logo" />
-          Billy.sh
+          Billy
         </a>
         <ul className="nav-links">
           <li><a href="#features">Features</a></li>
@@ -907,7 +918,7 @@ function App() {
       <footer>
         <div className="footer-inner">
           <div>
-            <strong>Billy.sh</strong> — Local AI, zero fees. &nbsp;
+            <strong>Billy</strong> — Local AI, zero fees. &nbsp;
             <span style={{ color: 'var(--muted)' }}>Built with ❤️ and Go by <a href="https://jd4codes.com" target="_blank" rel="noreferrer" style={{ color: 'var(--accent)' }}>JD4Codes</a>.</span>
           </div>
           <div className="footer-contact">
