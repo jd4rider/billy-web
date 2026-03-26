@@ -31,6 +31,24 @@ const URLS = {
 
 const checkout = TEST_MODE ? URLS.test : URLS.live;
 
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: any[]) => void;
+  }
+}
+
+type AnalyticsParams = Record<string, string | number | boolean>;
+
+function trackEvent(eventName: string, params: AnalyticsParams = {}) {
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+  window.gtag('event', eventName, params);
+}
+
+function trackCta(target: string, location: string, params: AnalyticsParams = {}) {
+  trackEvent('cta_click', { target, location, ...params });
+}
+
 interface Feature {
   icon: string;
   title: string;
@@ -252,6 +270,7 @@ function InstallSection() {
 
   const copy = () => {
     navigator.clipboard.writeText(installCommands[active]).then(() => {
+      trackEvent('install_command_copy', { method: active });
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     });
@@ -263,12 +282,19 @@ function InstallSection() {
         <div className="section-label">Install</div>
         <h2>Get Billy in 60 seconds</h2>
         <p className="section-sub" style={{ marginBottom: 32 }}>
-          Requires <a href="https://ollama.com" target="_blank" rel="noreferrer">Ollama</a> running locally,
+          Requires <a href="https://ollama.com" target="_blank" rel="noreferrer" onClick={() => trackCta('ollama', 'install')}>Ollama</a> running locally,
           or use the Full build which bundles Ollama automatically.
         </p>
         <div className="install-tabs">
           {tabs.map(t => (
-            <button key={t} className={`tab-btn${active === t ? ' active' : ''}`} onClick={() => setActive(t)}>
+            <button
+              key={t}
+              className={`tab-btn${active === t ? ' active' : ''}`}
+              onClick={() => {
+                setActive(t);
+                trackEvent('install_method_select', { method: t });
+              }}
+            >
               {t}
             </button>
           ))}
@@ -313,7 +339,13 @@ function PricingSection() {
               <li><span className="cross">✗</span> Memory persistence</li>
               <li><span className="cross">✗</span> Multiple backends</li>
             </ul>
-            <a href={`${GITHUB_URL}/releases`} className="btn btn-outline" target="_blank" rel="noreferrer">
+            <a
+              href={`${GITHUB_URL}/releases`}
+              className="btn btn-outline"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackCta('download_free', 'pricing')}
+            >
               Download Free
             </a>
           </div>
@@ -337,7 +369,13 @@ function PricingSection() {
               <li><span className="check">✓</span> All slash commands + agentic mode</li>
             </ul>
             <div className="pricing-compare">vs. GitHub Copilot $10/mo — Billy pays for itself in 7 weeks</div>
-            <a href={checkout.pro} className="btn btn-primary" target="_blank" rel="noreferrer">
+            <a
+              href={checkout.pro}
+              className="btn btn-primary"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackCta('checkout', 'pricing', { plan: 'pro' })}
+            >
               Get Pro — $19 one-time →
             </a>
           </div>
@@ -383,17 +421,41 @@ function PricingSection() {
                 <div className="seat-option">
                   <span className="seat-label">5 seats</span>
                   <span className="seat-price">$70</span>
-                  <a href={checkout.team5} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a
+                    href={checkout.team5}
+                    className="btn btn-outline"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackCta('checkout', 'team_pricing', { plan: 'team_5' })}
+                  >
+                    Buy
+                  </a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">10 seats</span>
                   <span className="seat-price">$130</span>
-                  <a href={checkout.team10} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a
+                    href={checkout.team10}
+                    className="btn btn-outline"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackCta('checkout', 'team_pricing', { plan: 'team_10' })}
+                  >
+                    Buy
+                  </a>
                 </div>
                 <div className="seat-option">
                   <span className="seat-label">25 seats</span>
                   <span className="seat-price">$300</span>
-                  <a href={checkout.team25} className="btn btn-outline" target="_blank" rel="noreferrer">Buy</a>
+                  <a
+                    href={checkout.team25}
+                    className="btn btn-outline"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackCta('checkout', 'team_pricing', { plan: 'team_25' })}
+                  >
+                    Buy
+                  </a>
                 </div>
               </div>
               <p className="enterprise-note">
@@ -420,8 +482,8 @@ function PricingSection() {
               <li><span className="check">✓</span> SLA</li>
             </ul>
             <div className="enterprise-ctas">
-              <a href="tel:+14063967246" className="btn btn-primary">📞 406-396-7246</a>
-              <a href="mailto:jd4rider@gmail.com" className="btn btn-outline">✉ jd4rider@gmail.com</a>
+              <a href="tel:+14063967246" className="btn btn-primary" onClick={() => trackCta('enterprise_phone', 'enterprise')}>📞 406-396-7246</a>
+              <a href="mailto:jd4rider@gmail.com" className="btn btn-outline" onClick={() => trackCta('enterprise_email', 'enterprise')}>✉ jd4rider@gmail.com</a>
             </div>
           </div>
         </div>
@@ -455,7 +517,10 @@ function NewsletterSection() {
       const data = await res.json() as { ok: boolean; message: string };
       setMsg(data.message);
       setStatus(data.ok ? 'success' : 'error');
-      if (data.ok) setEmail('');
+      if (data.ok) {
+        trackEvent('newsletter_subscribe', { location: 'newsletter' });
+        setEmail('');
+      }
     } catch {
       setMsg('Could not subscribe right now. Try again later.');
       setStatus('error');
@@ -550,7 +615,7 @@ function BlogSection() {
               <p>{post.excerpt}</p>
               <div className="blog-meta">
                 <span className="blog-date">{post.date}</span>
-                <a href={post.url} target="_blank" rel="noreferrer" className="blog-read-link">Read →</a>
+                <a href={post.url} target="_blank" rel="noreferrer" className="blog-read-link" onClick={() => trackCta('blog_post', 'homepage_blog', { slug: post.slug })}>Read →</a>
               </div>
             </div>
           ))}
@@ -710,8 +775,12 @@ function ProductHuntSection() {
         <h2>We're live on Product Hunt 🎉</h2>
         <p className="section-sub">If Billy saves you money on subscriptions, an upvote goes a long way.</p>
         <div className="ph-badge-row">
-          <a href="https://www.producthunt.com/posts/billy-sh?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-billy-sh"
-            target="_blank" rel="noreferrer">
+          <a
+            href="https://www.producthunt.com/posts/billy-sh?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-billy-sh"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => trackCta('product_hunt', 'homepage')}
+          >
             <img
               src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=billy-sh&theme=dark"
               alt="Billy.sh - Local AI coding assistant, no subscription | Product Hunt"
@@ -753,7 +822,7 @@ function GiscusSection() {
         <h2>Questions & feedback</h2>
         <p className="section-sub">Ask questions, share what you built, or leave a review. Sign in with GitHub.</p>
         <div className="giscus-fallback">
-          <a href="https://github.com/jd4rider/billy-web/discussions" target="_blank" rel="noreferrer" className="btn btn-secondary">
+          <a href="https://github.com/jd4rider/billy-web/discussions" target="_blank" rel="noreferrer" className="btn btn-secondary" onClick={() => trackCta('community', 'giscus_fallback')}>
             💬 Open GitHub Discussions
           </a>
         </div>
@@ -813,9 +882,9 @@ function NavHamburger({ docsUrl, githubUrl }: { docsUrl: string; githubUrl: stri
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#blog">Blog</a></li>
           <li><a href="#devlog">Devlog</a></li>
-          <li><a href={docsUrl} target="_blank" rel="noreferrer">Docs</a></li>
+          <li><a href={docsUrl} target="_blank" rel="noreferrer" onClick={() => trackCta('docs', 'nav_desktop')}>Docs</a></li>
           <li>
-            <a href={githubUrl} className="btn btn-outline" target="_blank" rel="noreferrer">★ GitHub</a>
+            <a href={githubUrl} className="btn btn-outline" target="_blank" rel="noreferrer" onClick={() => trackCta('github', 'nav_desktop')}>★ GitHub</a>
           </li>
         </ul>
         <button className="nav-hamburger" onClick={() => setOpen(o => !o)} aria-label="Menu">
@@ -828,8 +897,8 @@ function NavHamburger({ docsUrl, githubUrl }: { docsUrl: string; githubUrl: stri
         <a href="#pricing" onClick={close}>Pricing</a>
         <a href="#blog" onClick={close}>Blog</a>
         <a href="#devlog" onClick={close}>Devlog</a>
-        <a href={docsUrl} target="_blank" rel="noreferrer" onClick={close}>Docs</a>
-        <a href={githubUrl} target="_blank" rel="noreferrer" onClick={close}>★ GitHub</a>
+        <a href={docsUrl} target="_blank" rel="noreferrer" onClick={() => { trackCta('docs', 'nav_mobile'); close(); }}>Docs</a>
+        <a href={githubUrl} target="_blank" rel="noreferrer" onClick={() => { trackCta('github', 'nav_mobile'); close(); }}>★ GitHub</a>
       </div>
     </nav>
   );
@@ -861,13 +930,13 @@ function App() {
             No API keys, no subscriptions, no data leaving your computer.
           </p>
           <div className="hero-ctas">
-            <a href="#install" className="btn btn-primary" style={{ fontSize: '1rem', padding: '12px 28px' }}>
+            <a href="#install" className="btn btn-primary" style={{ fontSize: '1rem', padding: '12px 28px' }} onClick={() => trackCta('download_free', 'hero')}>
               ⬇ Download Free
             </a>
-            <a href="#pricing" className="btn btn-outline" style={{ fontSize: '1rem', padding: '12px 28px' }}>
+            <a href="#pricing" className="btn btn-outline" style={{ fontSize: '1rem', padding: '12px 28px' }} onClick={() => trackCta('buy_pro', 'hero')}>
               Buy Pro — $19
             </a>
-            <a href={GITHUB_URL} className="btn btn-outline" target="_blank" rel="noreferrer" style={{ fontSize: '1rem', padding: '12px 28px' }}>
+            <a href={GITHUB_URL} className="btn btn-outline" target="_blank" rel="noreferrer" style={{ fontSize: '1rem', padding: '12px 28px' }} onClick={() => trackCta('github', 'hero')}>
               ★ Star on GitHub
             </a>
           </div>
@@ -926,8 +995,8 @@ function App() {
             <a href="tel:+14063967246">📞 406-396-7246</a>
           </div>
           <div className="footer-links">
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub</a>
-            <a href={DOCS_URL} target="_blank" rel="noreferrer">Docs</a>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" onClick={() => trackCta('github', 'footer')}>GitHub</a>
+            <a href={DOCS_URL} target="_blank" rel="noreferrer" onClick={() => trackCta('docs', 'footer')}>Docs</a>
             <a href="#producthunt">Product Hunt</a>
             <a href="#community">Community</a>
             <a href="#blog">Blog</a>
