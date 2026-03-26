@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jd4rider.github.io/billy-web/sitemap.xml
+Sitemap: https://billysh.online/sitemap.xml
