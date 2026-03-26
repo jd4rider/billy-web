@@ -14,18 +14,18 @@ const TEST_MODE = new URLSearchParams(window.location.search).has('test');
 
 const URLS = {
   live: {
-    pro:    'https://billysh.lemonsqueezy.com/checkout/buy/e42e130f-96b1-48ba-b4d7-93bb59792606?enabled=1420712',
-    premium:'https://billysh.lemonsqueezy.com/checkout/buy/3e85bc44-f294-414c-a34d-ccf3e42dc87d?enabled=1420713',
-    team5:  'https://billysh.lemonsqueezy.com/checkout/buy/5445951a-324e-43a1-9f21-15b7adb67bdf?enabled=1420715',
-    team10: 'https://billysh.lemonsqueezy.com/checkout/buy/47d0ac97-30e8-46d1-bab8-296a08a7bef4?enabled=1420716',
-    team25: 'https://billysh.lemonsqueezy.com/checkout/buy/472a5778-f973-4bf1-af57-f936f0db2d40?enabled=1420717',
+    pro:    'https://shop.billysh.online/checkout/buy/e42e130f-96b1-48ba-b4d7-93bb59792606?enabled=1420712',
+    premium:'https://shop.billysh.online/checkout/buy/3e85bc44-f294-414c-a34d-ccf3e42dc87d?enabled=1420713',
+    team5:  'https://shop.billysh.online/checkout/buy/5445951a-324e-43a1-9f21-15b7adb67bdf?enabled=1420715',
+    team10: 'https://shop.billysh.online/checkout/buy/47d0ac97-30e8-46d1-bab8-296a08a7bef4?enabled=1420716',
+    team25: 'https://shop.billysh.online/checkout/buy/472a5778-f973-4bf1-af57-f936f0db2d40?enabled=1420717',
   },
   test: {
-    pro:    'https://billysh.lemonsqueezy.com/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8?enabled=1408429',
-    premium:'https://billysh.lemonsqueezy.com/checkout/buy/6e29b223-17b3-44d4-8fb9-2d166343b04a?enabled=1408393',
-    team5:  'https://billysh.lemonsqueezy.com/checkout/buy/b3d7bfaf-7917-4e27-bf22-75a86ff027f6?enabled=1408425',
-    team10: 'https://billysh.lemonsqueezy.com/checkout/buy/0f746ded-8bca-4ff9-807a-356c1c9cfeb9?enabled=1408426',
-    team25: 'https://billysh.lemonsqueezy.com/checkout/buy/5189e3c4-9b10-4745-83aa-a6129be85840?enabled=1408428',
+    pro:    'https://shop.billysh.online/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8?enabled=1408429',
+    premium:'https://shop.billysh.online/checkout/buy/6e29b223-17b3-44d4-8fb9-2d166343b04a?enabled=1408393',
+    team5:  'https://shop.billysh.online/checkout/buy/b3d7bfaf-7917-4e27-bf22-75a86ff027f6?enabled=1408425',
+    team10: 'https://shop.billysh.online/checkout/buy/0f746ded-8bca-4ff9-807a-356c1c9cfeb9?enabled=1408426',
+    team25: 'https://shop.billysh.online/checkout/buy/5189e3c4-9b10-4745-83aa-a6129be85840?enabled=1408428',
   },
 };
 
