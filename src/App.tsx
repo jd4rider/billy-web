@@ -834,15 +834,32 @@ const proofItems: ProofItem[] = [
 ];
 
 function ProofSection() {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (direction: 1 | -1) => {
+    const el = carouselRef.current;
+    if (!el) return;
+    el.scrollBy({ left: el.clientWidth * 0.82 * direction, behavior: 'smooth' });
+  };
+
   return (
     <section className="section" id="proof">
       <div className="container" style={{ textAlign: 'center' }}>
         <div className="section-label">Proof</div>
         <h2>Real proof, not placeholder hype</h2>
         <p className="section-sub">Billy is already shipping in public with live installs, public docs, and a real checkout.</p>
-        <div className="testimonials-grid">
+        <div className="proof-carousel-shell">
+          <button
+            type="button"
+            className="carousel-btn"
+            aria-label="Scroll proof cards left"
+            onClick={() => scrollCarousel(-1)}
+          >
+            ←
+          </button>
+          <div className="proof-carousel" ref={carouselRef}>
           {proofItems.map((item) => (
-            <div key={item.title} className="testimonial-card">
+            <div key={item.title} className="testimonial-card proof-card-slide">
               <div className="proof-label">{item.label}</div>
               <h3 className="proof-title">{item.title}</h3>
               <p className="proof-detail">{item.detail}</p>
@@ -858,6 +875,16 @@ function ProofSection() {
             </div>
           ))}
         </div>
+          <button
+            type="button"
+            className="carousel-btn"
+            aria-label="Scroll proof cards right"
+            onClick={() => scrollCarousel(1)}
+          >
+            →
+          </button>
+        </div>
+        <p className="proof-carousel-hint">Use the arrows or swipe to browse all proof cards.</p>
       </div>
     </section>
   );
