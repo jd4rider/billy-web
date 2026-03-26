@@ -287,11 +287,14 @@ function PricingSection() {
     <section className="section" id="pricing">
       <div className="container" style={{ textAlign: 'center' }}>
         <div className="section-label">Pricing</div>
-        <h2>Simple, honest pricing</h2>
+        <h2>Pay once. Own it forever.</h2>
         <p className="section-sub" style={{ margin: '0 auto 12px' }}>
-          Start free. Upgrade when you're ready — one-time payment, no subscription.
+          No monthly fees. No API keys. No data leaving your machine.<br />
+          GitHub Copilot costs $120/yr. Cursor costs $240/yr. Billy is <strong>$19, once</strong>.
         </p>
-        <p className="pre-alpha-note">Alpha — download now free while we build out features.</p>
+        <div className="pricing-discount-banner">
+          🎉 Early bird offer: use code <strong>EARLYBIRD30</strong> at checkout for 30% off — first 50 customers only.
+        </div>
 
         {/* Main 3-col grid: Free / Pro / Premium */}
         <div className="pricing-grid">
@@ -317,21 +320,25 @@ function PricingSection() {
 
           {/* PRO */}
           <div className="pricing-card featured">
-            <div><span className="badge badge-pro">Pro</span></div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 8 }}>
+              <span className="badge badge-pro">Pro</span>
+              <span className="badge badge-best-value">Most Popular</span>
+            </div>
             <div className="pricing-name" style={{ marginTop: 12 }}>Pro</div>
             <div className="pricing-price">$19 <span>one-time</span></div>
             <div className="pricing-desc">Full features, forever. <strong>Use on 2 machines.</strong></div>
+            <div className="pricing-savings">Saves $101 vs Copilot in year one alone.</div>
             <ul className="pricing-features">
               <li><span className="check">✓</span> <strong>Unlimited</strong> messages</li>
               <li><span className="check">✓</span> <strong>Install on 2 machines</strong> (home + work)</li>
+              <li><span className="check">✓</span> Memory system — learns your projects over time</li>
               <li><span className="check">✓</span> All backends (Ollama, Groq, custom HTTP)</li>
               <li><span className="check">✓</span> Full conversation history</li>
-              <li><span className="check">✓</span> Memory system</li>
-              <li><span className="check">✓</span> All slash commands</li>
+              <li><span className="check">✓</span> All slash commands + agentic mode</li>
             </ul>
-            <div className="pricing-compare">vs. GitHub Copilot $10/mo forever</div>
+            <div className="pricing-compare">vs. GitHub Copilot $10/mo — Billy pays for itself in 7 weeks</div>
             <a href={checkout.pro} className="btn btn-primary" target="_blank" rel="noreferrer">
-              Buy Pro — $19
+              Get Pro — $19 one-time →
             </a>
           </div>
 
@@ -419,7 +426,9 @@ function PricingSection() {
           </div>
         </div>
 
-        <p className="pricing-promo-note">Have a discount code? Enter it at checkout — LemonSqueezy applies it automatically.</p>
+        <p className="pricing-promo-note">
+          Use code <strong>EARLYBIRD30</strong> at checkout for 30% off — 50 uses, expires April 30.
+        </p>
       </div>
     </section>
   );
@@ -899,7 +908,7 @@ function App() {
         <div className="footer-inner">
           <div>
             <strong>Billy.sh</strong> — Local AI, zero fees. &nbsp;
-            <span style={{ color: 'var(--muted)' }}>Built with ❤️ and Go.</span>
+            <span style={{ color: 'var(--muted)' }}>Built with ❤️ and Go by <a href="https://jd4codes.com" target="_blank" rel="noreferrer" style={{ color: 'var(--accent)' }}>JD4Codes</a>.</span>
           </div>
           <div className="footer-contact">
             <a href="mailto:jd4rider@gmail.com">✉ jd4rider@gmail.com</a>

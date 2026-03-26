@@ -107,6 +107,7 @@ nav {
 .badge-premium { background: #2d1a4d; color: #c084fc;        border: 1px solid #c084fc; }
 .badge-team    { background: #1a2d1a; color: #4ade80;        border: 1px solid #4ade80; }
 .badge-enterprise { background: #2d2500; color: var(--amber); border: 1px solid var(--amber); }
+.badge-best-value { background: #003d00; color: #4ade80; border: 1px solid #4ade80; font-weight: 700; }
 
 /* HERO */
 .hero {
@@ -399,6 +400,24 @@ nav {
   color: var(--yellow);
   font-size: 0.85rem;
   margin-bottom: 36px;
+}
+
+.pricing-discount-banner {
+  background: linear-gradient(135deg, #001d3d 0%, #002d1a 100%);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  color: var(--fg);
+  margin: 0 auto 32px;
+  max-width: 560px;
+}
+
+.pricing-savings {
+  font-size: 0.82rem;
+  color: #4ade80;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
 /* TEAM CARD */
