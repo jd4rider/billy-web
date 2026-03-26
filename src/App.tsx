@@ -567,6 +567,116 @@ function NewsletterSection() {
   );
 }
 
+type CarouselVariant = 'proof' | 'blog';
+
+interface FancyCarouselProps<T> {
+  items: T[];
+  variant: CarouselVariant;
+  hint: string;
+  getKey: (item: T) => string;
+  getAriaLabel: (item: T, index: number) => string;
+  renderSlide: (item: T, index: number) => React.ReactNode;
+}
+
+function FancyCarousel<T>({
+  items,
+  variant,
+  hint,
+  getKey,
+  getAriaLabel,
+  renderSlide,
+}: FancyCarouselProps<T>) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const selectSlide = (index: number) => {
+    const next = (index + items.length) % items.length;
+    setActiveIndex(next);
+  };
+
+  const getOffset = (index: number) => {
+    let diff = index - activeIndex;
+    if (diff > items.length / 2) diff -= items.length;
+    if (diff < -items.length / 2) diff += items.length;
+    return diff;
+  };
+
+  const getSlideClass = (offset: number) => {
+    if (offset === 0) return 'is-active';
+    if (offset === -1) return 'is-prev';
+    if (offset === 1) return 'is-next';
+    return offset < 0 ? 'is-far-prev' : 'is-far-next';
+  };
+
+  const cssVars = (
+    variant === 'proof'
+      ? {
+          '--carousel-card-max-width': '820px',
+          '--carousel-card-min-height': '340px',
+          '--carousel-stage-height': '410px',
+          '--carousel-shift': 'clamp(180px, 21vw, 320px)',
+          '--carousel-side-scale': '0.9',
+        }
+      : {
+          '--carousel-card-max-width': '380px',
+          '--carousel-card-min-height': '290px',
+          '--carousel-stage-height': '360px',
+          '--carousel-shift': 'clamp(150px, 18vw, 260px)',
+          '--carousel-side-scale': '0.92',
+        }
+  ) as React.CSSProperties;
+
+  return (
+    <div className={`fancy-carousel fancy-carousel-${variant}`} style={cssVars}>
+      <div className="fancy-carousel-stage">
+        {items.map((item, index) => {
+          const offset = getOffset(index);
+          return (
+            <article
+              key={getKey(item)}
+              className={`fancy-slide ${getSlideClass(offset)}`}
+              aria-hidden={offset !== 0}
+            >
+              {renderSlide(item, index)}
+            </article>
+          );
+        })}
+      </div>
+      <div className="fancy-carousel-controls">
+        <button
+          type="button"
+          className="carousel-btn"
+          aria-label="Show previous slide"
+          onClick={() => selectSlide(activeIndex - 1)}
+        >
+          ←
+        </button>
+        <div className="fancy-carousel-dots" role="tablist" aria-label={`${variant} carousel`}>
+          {items.map((item, index) => (
+            <button
+              key={getKey(item)}
+              type="button"
+              role="tab"
+              aria-selected={index === activeIndex}
+              aria-label={getAriaLabel(item, index)}
+              className={`fancy-carousel-dot${index === activeIndex ? ' active' : ''}`}
+              onClick={() => selectSlide(index)}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          className="carousel-btn"
+          aria-label="Show next slide"
+          onClick={() => selectSlide(activeIndex + 1)}
+        >
+          →
+        </button>
+      </div>
+      <p className="fancy-carousel-hint">{hint}</p>
+    </div>
+  );
+}
+
 interface BlogPost { slug: string; url: string; title: string; date: string; excerpt: string; tags: string[]; }
 
 const BLOG_BASE = 'https://blog.billysh.online/blog';
@@ -607,14 +717,6 @@ const blogPosts: BlogPost[] = [
 ];
 
 function BlogSection() {
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  const scrollCarousel = (direction: 1 | -1) => {
-    const el = carouselRef.current;
-    if (!el) return;
-    el.scrollBy({ left: el.clientWidth * 0.82 * direction, behavior: 'smooth' });
-  };
-
   return (
     <section className="section" id="blog">
       <div className="container">
@@ -636,18 +738,14 @@ function BlogSection() {
             </a>
           </div>
         </div>
-        <div className="blog-carousel-shell">
-          <button
-            type="button"
-            className="carousel-btn"
-            aria-label="Scroll blog posts left"
-            onClick={() => scrollCarousel(-1)}
-          >
-            ←
-          </button>
-          <div className="blog-carousel" ref={carouselRef}>
-          {blogPosts.map(post => (
-            <div className="blog-card blog-card-slide" key={post.slug}>
+        <FancyCarousel
+          items={blogPosts}
+          variant="blog"
+          hint="Use the arrows or dots to browse all posts."
+          getKey={(post) => post.slug}
+          getAriaLabel={(post, index) => `Show blog post ${index + 1}: ${post.title}`}
+          renderSlide={(post) => (
+            <div className="blog-card">
               <div className="blog-tags">
                 {post.tags.map(t => <span className="blog-tag" key={t}>{t}</span>)}
               </div>
@@ -658,18 +756,8 @@ function BlogSection() {
                 <a href={post.url} target="_blank" rel="noreferrer" className="blog-read-link" onClick={() => trackCta('blog_post', 'homepage_blog', { slug: post.slug })}>Read →</a>
               </div>
             </div>
-          ))}
-        </div>
-          <button
-            type="button"
-            className="carousel-btn"
-            aria-label="Scroll blog posts right"
-            onClick={() => scrollCarousel(1)}
-          >
-            →
-          </button>
-        </div>
-        <p className="blog-carousel-hint">Use the arrows or swipe to browse all posts.</p>
+          )}
+        />
       </div>
     </section>
   );
@@ -834,100 +922,43 @@ const proofItems: ProofItem[] = [
 ];
 
 function ProofSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const selectProof = (index: number) => {
-    const next = (index + proofItems.length) % proofItems.length;
-    setActiveIndex(next);
-  };
-
-  const getStackDepth = (index: number) => {
-    return (index - activeIndex + proofItems.length) % proofItems.length;
-  };
-
-  const getCardClass = (depth: number) => {
-    if (depth === 0) return 'is-active';
-    if (depth === 1) return 'is-next';
-    if (depth === 2) return 'is-third';
-    return 'is-hidden';
-  };
-
   return (
     <section className="section" id="proof">
       <div className="container" style={{ textAlign: 'center' }}>
         <div className="section-label">Proof</div>
         <h2>Real proof, not placeholder hype</h2>
         <p className="section-sub">Billy is already shipping in public with live installs, public docs, and a real checkout.</p>
-        <div className="proof-stack-shell">
-          <div className="proof-stack-stage">
-            <div className="proof-stack-deck">
-              {proofItems.map((item, index) => {
-                const depth = getStackDepth(index);
-                return (
-                  <article
-                    key={item.title}
-                    className={`proof-card ${getCardClass(depth)}`}
-                    aria-hidden={depth !== 0}
-                  >
-                    <div className="proof-card-meta">
-                      <div className="proof-label">{item.label}</div>
-                      <div className="proof-card-counter">
-                        {String(index + 1).padStart(2, '0')} / {String(proofItems.length).padStart(2, '0')}
-                      </div>
-                    </div>
-                    <h3 className="proof-card-title">{item.title}</h3>
-                    <p className="proof-card-detail">{item.detail}</p>
-                    <div className="proof-card-actions">
-                      <a
-                        href={item.href}
-                        className="btn btn-primary"
-                        target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noreferrer' : undefined}
-                        onClick={() => trackCta(item.target, item.location)}
-                      >
-                        {item.cta}
-                      </a>
-                      <span className="proof-card-note">Public artifact, live today</span>
-                    </div>
-                  </article>
-                );
-              })}
+        <FancyCarousel
+          items={proofItems}
+          variant="proof"
+          hint="Use the arrows or dots to browse the proof points."
+          getKey={(item) => item.title}
+          getAriaLabel={(item, index) => `Show proof card ${index + 1}: ${item.title}`}
+          renderSlide={(item, index) => (
+            <div className="proof-card-content">
+              <div className="proof-card-meta">
+                <div className="proof-label">{item.label}</div>
+                <div className="proof-card-counter">
+                  {String(index + 1).padStart(2, '0')} / {String(proofItems.length).padStart(2, '0')}
+                </div>
+              </div>
+              <h3 className="proof-card-title">{item.title}</h3>
+              <p className="proof-card-detail">{item.detail}</p>
+              <div className="proof-card-actions">
+                <a
+                  href={item.href}
+                  className="btn btn-primary"
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noreferrer' : undefined}
+                  onClick={() => trackCta(item.target, item.location)}
+                >
+                  {item.cta}
+                </a>
+                <span className="proof-card-note">Public artifact, live today</span>
+              </div>
             </div>
-          </div>
-          <div className="proof-stack-controls">
-            <button
-              type="button"
-              className="carousel-btn"
-              aria-label="Show previous proof card"
-              onClick={() => selectProof(activeIndex - 1)}
-            >
-              ←
-            </button>
-            <div className="proof-stack-tabs" role="tablist" aria-label="Proof cards">
-            {proofItems.map((item, index) => (
-              <button
-                key={item.title}
-                type="button"
-                role="tab"
-                aria-selected={index === activeIndex}
-                className={`proof-tab${index === activeIndex ? ' active' : ''}`}
-                onClick={() => selectProof(index)}
-              >
-                {item.label}
-              </button>
-            ))}
-            </div>
-            <button
-              type="button"
-              className="carousel-btn"
-              aria-label="Show next proof card"
-              onClick={() => selectProof(activeIndex + 1)}
-            >
-              →
-            </button>
-          </div>
-        </div>
-        <p className="proof-carousel-hint">Flip through the deck with the arrows, or jump to a card using the tabs.</p>
+          )}
+        />
       </div>
     </section>
   );
