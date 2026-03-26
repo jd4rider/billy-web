@@ -835,11 +835,25 @@ const proofItems: ProofItem[] = [
 
 function ProofSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const active = proofItems[activeIndex];
 
   const selectProof = (index: number) => {
     const next = (index + proofItems.length) % proofItems.length;
     setActiveIndex(next);
+  };
+
+  const getOffset = (index: number) => {
+    let diff = index - activeIndex;
+    if (diff > proofItems.length / 2) diff -= proofItems.length;
+    if (diff < -proofItems.length / 2) diff += proofItems.length;
+    return diff;
+  };
+
+  const getPageClass = (offset: number) => {
+    if (offset === 0) return 'is-active';
+    if (offset === 1) return 'is-next';
+    if (offset === -1) return 'is-prev';
+    if (offset > 1) return 'is-deep-next';
+    return 'is-deep-prev';
   };
 
   return (
@@ -848,66 +862,77 @@ function ProofSection() {
         <div className="section-label">Proof</div>
         <h2>Real proof, not placeholder hype</h2>
         <p className="section-sub">Billy is already shipping in public with live installs, public docs, and a real checkout.</p>
-        <div className="proof-featured">
-          <div className="proof-featured-card">
-            <div className="proof-featured-top">
-              <div className="proof-featured-meta">
-                <div className="proof-label">{active.label}</div>
-                <div className="proof-featured-counter">
-                  {String(activeIndex + 1).padStart(2, '0')} / {String(proofItems.length).padStart(2, '0')}
-                </div>
-              </div>
-              <div className="proof-featured-nav">
-                <button
-                  type="button"
-                  className="carousel-btn"
-                  aria-label="Show previous proof card"
-                  onClick={() => selectProof(activeIndex - 1)}
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  className="carousel-btn"
-                  aria-label="Show next proof card"
-                  onClick={() => selectProof(activeIndex + 1)}
-                >
-                  →
-                </button>
-              </div>
-            </div>
-            <h3 className="proof-featured-title">{active.title}</h3>
-            <p className="proof-featured-detail">{active.detail}</p>
-            <div className="proof-featured-actions">
-              <a
-                href={active.href}
-                className="btn btn-primary"
-                target={active.external ? '_blank' : undefined}
-                rel={active.external ? 'noreferrer' : undefined}
-                onClick={() => trackCta(active.target, active.location)}
-              >
-                {active.cta}
-              </a>
-              <span className="proof-featured-note">Public artifact, live today</span>
+        <div className="proof-book-shell">
+          <div className="proof-book-stage">
+            <div className="proof-book-spine" aria-hidden="true" />
+            <div className="proof-book">
+              {proofItems.map((item, index) => {
+                const offset = getOffset(index);
+                return (
+                  <article
+                    key={item.title}
+                    className={`proof-page ${getPageClass(offset)}`}
+                    aria-hidden={offset !== 0}
+                  >
+                    <div className="proof-page-meta">
+                      <div className="proof-label">{item.label}</div>
+                      <div className="proof-page-counter">
+                        {String(index + 1).padStart(2, '0')} / {String(proofItems.length).padStart(2, '0')}
+                      </div>
+                    </div>
+                    <h3 className="proof-page-title">{item.title}</h3>
+                    <p className="proof-page-detail">{item.detail}</p>
+                    <div className="proof-page-actions">
+                      <a
+                        href={item.href}
+                        className="btn btn-primary"
+                        target={item.external ? '_blank' : undefined}
+                        rel={item.external ? 'noreferrer' : undefined}
+                        onClick={() => trackCta(item.target, item.location)}
+                      >
+                        {item.cta}
+                      </a>
+                      <span className="proof-page-note">Public artifact, live today</span>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
-          <div className="proof-thumbnails" role="tablist" aria-label="Proof cards">
+          <div className="proof-book-controls">
+            <button
+              type="button"
+              className="carousel-btn"
+              aria-label="Show previous proof card"
+              onClick={() => selectProof(activeIndex - 1)}
+            >
+              ←
+            </button>
+            <div className="proof-book-tabs" role="tablist" aria-label="Proof pages">
             {proofItems.map((item, index) => (
               <button
                 key={item.title}
                 type="button"
                 role="tab"
                 aria-selected={index === activeIndex}
-                className={`proof-thumb${index === activeIndex ? ' active' : ''}`}
+                className={`proof-tab${index === activeIndex ? ' active' : ''}`}
                 onClick={() => selectProof(index)}
               >
-                <span className="proof-thumb-label">{item.label}</span>
-                <span className="proof-thumb-title">{item.title}</span>
+                {item.label}
               </button>
             ))}
+            </div>
+            <button
+              type="button"
+              className="carousel-btn"
+              aria-label="Show next proof card"
+              onClick={() => selectProof(activeIndex + 1)}
+            >
+              →
+            </button>
           </div>
         </div>
-        <p className="proof-carousel-hint">Use the arrows or the thumbnail rail to flip through the proof points.</p>
+        <p className="proof-carousel-hint">Flip through the stack with the arrows, or jump to a page using the tabs.</p>
       </div>
     </section>
   );
