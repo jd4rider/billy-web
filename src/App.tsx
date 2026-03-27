@@ -8,30 +8,8 @@ const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
 const INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-app/main/scripts/install.sh';
 const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/jd4rider';
 const GITHUB_SPONSORS_URL = 'https://github.com/sponsors/jd4rider';
-
-// ── Checkout URLs ────────────────────────────────────────────────────────────
-// Add ?test=1 to the page URL to switch all checkout buttons to LS test-mode.
-// Replace the TEST_* values with your LemonSqueezy test-mode checkout URLs.
-const TEST_MODE = new URLSearchParams(window.location.search).has('test');
-
-const URLS = {
-  live: {
-    pro:    'https://shop.billysh.online/checkout/buy/e42e130f-96b1-48ba-b4d7-93bb59792606?enabled=1420712',
-    premium:'https://shop.billysh.online/checkout/buy/3e85bc44-f294-414c-a34d-ccf3e42dc87d?enabled=1420713',
-    team5:  'https://shop.billysh.online/checkout/buy/5445951a-324e-43a1-9f21-15b7adb67bdf?enabled=1420715',
-    team10: 'https://shop.billysh.online/checkout/buy/47d0ac97-30e8-46d1-bab8-296a08a7bef4?enabled=1420716',
-    team25: 'https://shop.billysh.online/checkout/buy/472a5778-f973-4bf1-af57-f936f0db2d40?enabled=1420717',
-  },
-  test: {
-    pro:    'https://shop.billysh.online/checkout/buy/c4644f9f-4521-4cd0-b996-d54ff66d6dc8?enabled=1408429',
-    premium:'https://shop.billysh.online/checkout/buy/6e29b223-17b3-44d4-8fb9-2d166343b04a?enabled=1408393',
-    team5:  'https://shop.billysh.online/checkout/buy/b3d7bfaf-7917-4e27-bf22-75a86ff027f6?enabled=1408425',
-    team10: 'https://shop.billysh.online/checkout/buy/0f746ded-8bca-4ff9-807a-356c1c9cfeb9?enabled=1408426',
-    team25: 'https://shop.billysh.online/checkout/buy/5189e3c4-9b10-4745-83aa-a6129be85840?enabled=1408428',
-  },
-};
-
-const checkout = TEST_MODE ? URLS.test : URLS.live;
+const SETUP_HELP_URL = 'mailto:jd4rider@gmail.com?subject=Billy%20Setup%20Help';
+const TEAM_HELP_URL = 'mailto:jd4rider@gmail.com?subject=Billy%20Team%20Rollout';
 
 declare global {
   interface Window {
@@ -74,14 +52,14 @@ const features: Feature[] = [
   },
   {
     icon: '💸', title: 'No Subscription',
-    desc: 'Pay once for Pro or use the free tier forever. No monthly fees, no API keys.',
+    desc: 'Billy ships open by default. No monthly fees, no login wall, no artificial limits.',
     detail: {
-      body: 'The SaaS AI tools add up fast. Copilot is $10/month, Cursor is $20/month — that\'s $360/year before you\'ve written a line of code. Billy is a one-time purchase that pays for itself in weeks.',
+      body: 'Billy is built around a simple idea: the real tool should stay free, local, and honest. If you know how to wire up Ollama or your own backend, you can do it yourself. If you want help, you can support the project through setup services, donations, or future convenience bundles.',
       bullets: [
-        'Free tier: 20 messages per session, model switching, full TUI — forever',
-        'Pro ($19 one-time): memory persistence, custom endpoints, 2 machines',
-        'Premium: coming soon — more activations + priority features',
-        'Compare: Copilot $120/yr · Cursor $240/yr · Billy $19 once',
+        'Full local CLI is available without a paywall',
+        'No ads, no telemetry, no forced account creation',
+        'Pay only if you want setup help, to support development, or later convenience bundles',
+        'Designed to stay local-first and community-supported',
       ],
     },
   },
@@ -103,13 +81,13 @@ const features: Feature[] = [
     icon: '🧠', title: 'Memory System',
     desc: 'Billy learns about you over time. Just say "remember that..." — it saves automatically.',
     detail: {
-      body: "You shouldn't have to re-establish context every session. Just talk to Billy like a collaborator — it detects save intent and stores facts automatically. On Pro+, memories persist indefinitely across every session.",
+      body: "You shouldn't have to re-establish context every session. Just talk to Billy like a collaborator — it detects save intent and stores facts automatically. Memories persist locally across sessions with no cloud profile and no paid unlock required.",
       bullets: [
         '"Remember that I\'m building a SaaS in Go" — just say it',
         'Stored locally in SQLite, never synced to any server',
         'Injected into every conversation as context automatically',
         'Manage with /memory — list, forget by ID, or clear all',
-        'Free tier: session-only · Pro+: persistent across all sessions',
+        'Works in the open-core build out of the box',
       ],
     },
   },
@@ -145,11 +123,11 @@ const features: Feature[] = [
     icon: '🔄', title: 'Model Switching',
     desc: 'Switch between any Ollama model on the fly. Pull new models with /pull without leaving the app.',
     detail: {
-      body: 'Billy is model-agnostic. Use any model Ollama supports — code models, general models, multimodal models. Pro+ users can also point Billy at any OpenAI-compatible endpoint like Groq, LM Studio, or your own server.',
+      body: 'Billy is model-agnostic. Use any model Ollama supports — code models, general models, multimodal models. You can also point Billy at any OpenAI-compatible endpoint like Groq, LM Studio, or your own server.',
       bullets: [
         '/model opens a picker showing all locally available models',
         '/pull <name> downloads a new model without leaving the app',
-        'Pro+: /backend lets you switch to any OpenAI-compatible API',
+        '/backend lets you switch to any OpenAI-compatible API',
         'Works with Ollama, Groq, LM Studio, or a self-hosted endpoint',
         'Recommended default: qwen2.5-coder:14b for coding tasks',
       ],
@@ -310,188 +288,190 @@ function InstallSection() {
   );
 }
 
-function PricingSection() {
+function SupportSection() {
   return (
-    <section className="section" id="pricing">
+    <section className="section" id="support">
       <div className="container" style={{ textAlign: 'center' }}>
-        <div className="section-label">Pricing</div>
-        <h2>Pay once. Own it forever.</h2>
+        <div className="section-label">Support Model</div>
+        <h2>Free core. Paid convenience if you want it.</h2>
         <p className="section-sub" style={{ margin: '0 auto 12px' }}>
-          No monthly fees. No API keys. No data leaving your machine.<br />
-          GitHub Copilot costs $120/yr. Cursor costs $240/yr. Billy is <strong>$19, once</strong>.
+          Billy is moving to a support-first model: the app stays usable without a purchase.<br />
+          Pay only if you want setup help, want to support the project, or later choose a convenience bundle.
+        </p>
+        <p className="section-sub" style={{ margin: '0 auto 24px', maxWidth: 760, fontStyle: 'italic' }}>
+          Build software and games that are free, honest, and clean - funded by people who believe in them, not by exploiting users.
         </p>
         <div className="pricing-discount-banner">
-          🎉 Early bird offer: use code <strong>EARLYBIRD30</strong> at checkout for 30% off — first 50 customers only.
+          Billy is intentionally ad-free and local-first. If it helps your workflow, support development instead of buying through a forced paywall.
         </div>
 
-        {/* Main 3-col grid: Free / Pro / Premium */}
         <div className="pricing-grid">
-
-          {/* FREE */}
           <div className="pricing-card">
             <div><span className="badge badge-free">Free</span></div>
-            <div className="pricing-name" style={{ marginTop: 12 }}>Starter</div>
+            <div className="pricing-name" style={{ marginTop: 12 }}>Free Core</div>
             <div className="pricing-price">$0</div>
-            <div className="pricing-desc">Open source. Always free.</div>
+            <div className="pricing-desc">Full local CLI. DIY setup. Open by default.</div>
             <ul className="pricing-features">
-              <li><span className="check">✓</span> 20 messages per session</li>
-              <li><span className="check">✓</span> Local Ollama only</li>
-              <li><span className="check">✓</span> 5 conversation history slots</li>
-              <li><span className="check">✓</span> Basic slash commands</li>
-              <li><span className="cross">✗</span> Memory persistence</li>
-              <li><span className="cross">✗</span> Multiple backends</li>
+              <li><span className="check">✓</span> Local Ollama workflow</li>
+              <li><span className="check">✓</span> Memory, history, sessions, and agent mode</li>
+              <li><span className="check">✓</span> Custom OpenAI-compatible backends</li>
+              <li><span className="check">✓</span> Homebrew, Scoop, script, and package installs</li>
+              <li><span className="check">✓</span> Public docs and community support</li>
+              <li><span className="check">✓</span> No ads or forced account</li>
             </ul>
             <a
               href={`${GITHUB_URL}/releases`}
               className="btn btn-outline"
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackCta('download_free', 'pricing')}
+              onClick={() => trackCta('download_free', 'support')}
             >
-              Download Free
+              Download Billy
             </a>
           </div>
 
-          {/* PRO */}
           <div className="pricing-card featured">
             <div style={{ display: 'flex', justifyContent: 'center', gap: 8 }}>
-              <span className="badge badge-pro">Pro</span>
-              <span className="badge badge-best-value">Most Popular</span>
+              <span className="badge badge-pro">Setup Help</span>
+              <span className="badge badge-best-value">Hands-on</span>
             </div>
-            <div className="pricing-name" style={{ marginTop: 12 }}>Pro</div>
-            <div className="pricing-price">$19 <span>one-time</span></div>
-            <div className="pricing-desc">Full features, forever. <strong>Use on 2 machines.</strong></div>
-            <div className="pricing-savings">Saves $101 vs Copilot in year one alone.</div>
+            <div className="pricing-name" style={{ marginTop: 12 }}>Guided Setup</div>
+            <div className="pricing-price">Custom <span>service</span></div>
+            <div className="pricing-desc">Don’t want to fight with models, paths, or config? I can help wire it up.</div>
+            <div className="pricing-savings">Best fit if you want Billy working fast on your machine.</div>
             <ul className="pricing-features">
-              <li><span className="check">✓</span> <strong>Unlimited</strong> messages</li>
-              <li><span className="check">✓</span> <strong>Install on 2 machines</strong> (home + work)</li>
-              <li><span className="check">✓</span> Memory system — learns your projects over time</li>
-              <li><span className="check">✓</span> All backends (Ollama, Groq, custom HTTP)</li>
-              <li><span className="check">✓</span> Full conversation history</li>
-              <li><span className="check">✓</span> All slash commands + agentic mode</li>
+              <li><span className="check">✓</span> Ollama install and first-model setup</li>
+              <li><span className="check">✓</span> Custom backend wiring if you want cloud fallback</li>
+              <li><span className="check">✓</span> OS-specific troubleshooting</li>
+              <li><span className="check">✓</span> Remote or guided setup options</li>
+              <li><span className="check">✓</span> Useful if you want Billy working quickly, not perfectly manually</li>
             </ul>
-            <div className="pricing-compare">vs. GitHub Copilot $10/mo — Billy pays for itself in 7 weeks</div>
+            <div className="pricing-compare">The app stays open. This is convenience, not access.</div>
             <a
-              href={checkout.pro}
+              href={SETUP_HELP_URL}
               className="btn btn-primary"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => trackCta('checkout', 'pricing', { plan: 'pro' })}
+              onClick={() => trackCta('setup_help', 'support')}
             >
-              Get Pro — $19 one-time →
+              Ask about setup help →
             </a>
           </div>
 
-          {/* PREMIUM */}
           <div className="pricing-card">
-            <div><span className="badge badge-premium">Premium</span></div>
-            <div className="pricing-name" style={{ marginTop: 12 }}>Premium</div>
-            <div className="pricing-price">$49 <span>one-time</span></div>
-            <div className="pricing-desc">Everything in Pro. <strong>Use on 3 machines.</strong></div>
+            <div><span className="badge badge-premium">Support</span></div>
+            <div className="pricing-name" style={{ marginTop: 12 }}>Keep Billy Sustainable</div>
+            <div className="pricing-price">Optional <span>support</span></div>
+            <div className="pricing-desc">Help fund ad-free apps, docs, games, and future local-first tools.</div>
             <ul className="pricing-features">
-              <li><span className="check">✓</span> Everything in Pro</li>
-              <li><span className="check">✓</span> <strong>Install on 3 machines</strong></li>
-              <li><span className="check">✓</span> Future: voice mode (Whisper + Piper TTS)</li>
-              <li><span className="check">✓</span> Future: IDE plugins (VS Code, JetBrains)</li>
-              <li><span className="check">✓</span> Priority support (email)</li>
+              <li><span className="check">✓</span> Buy Me a Coffee and GitHub Sponsors links stay public</li>
+              <li><span className="check">✓</span> Funds docs, domains, release work, and new features</li>
+              <li><span className="check">✓</span> Supports the wider family of wholesome, ad-free tools</li>
+              <li><span className="check">✓</span> No feature lock required to help out</li>
             </ul>
-            <div className="pricing-compare">vs. Cursor $20/mo — pay once, done</div>
-            <button className="btn btn-amber" disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
-              Premium — Coming Soon
-            </button>
+            <div className="pricing-compare">Future convenience bundles may return, but the core app stays open.</div>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a
+                href={BUY_ME_A_COFFEE_URL}
+                className="btn btn-outline"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackCta('buy_me_a_coffee', 'support_card')}
+              >
+                ☕ Buy me a coffee
+              </a>
+              <a
+                href={GITHUB_SPONSORS_URL}
+                className="btn btn-outline"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackCta('github_sponsors', 'support_card')}
+              >
+                ❤️ GitHub Sponsors
+              </a>
+            </div>
           </div>
-
         </div>
 
-        {/* TEAM */}
         <div className="team-card">
           <div className="team-card-inner">
             <div className="team-card-left">
               <span className="badge badge-team">Team</span>
-              <div className="pricing-name" style={{ marginTop: 12 }}>Team</div>
-              <div className="pricing-price">$14 <span>/seat</span></div>
-              <div className="pricing-desc">Volume pricing for development teams.</div>
+              <div className="pricing-name" style={{ marginTop: 12 }}>Church, classroom, or team rollout</div>
+              <div className="pricing-price">Guided <span>adoption</span></div>
+              <div className="pricing-desc">Need help getting Billy working across multiple machines or a shared environment?</div>
               <ul className="pricing-features">
-                <li><span className="check">✓</span> Everything in Pro</li>
-                <li><span className="check">✓</span> Volume discounts — pay less per seat as you scale</li>
-                <li><span className="check">✓</span> 5, 10, or 25 license keys — each works independently</li>
-                <li><span className="check">✓</span> Each dev runs fully local, no shared infra</li>
+                <li><span className="check">✓</span> Guided installation across multiple machines</li>
+                <li><span className="check">✓</span> Shared recommendations for models and workflows</li>
+                <li><span className="check">✓</span> Help with privacy-friendly local setups</li>
+                <li><span className="check">✓</span> Good fit for classrooms, ministries, and small dev teams</li>
               </ul>
             </div>
             <div className="team-card-right">
               <div className="seat-options">
                 <div className="seat-option">
-                  <span className="seat-label">5 seats</span>
-                  <span className="seat-price">$70</span>
+                  <span className="seat-label">Starter help</span>
+                  <span className="seat-price">Email me</span>
                   <a
-                    href={checkout.team5}
+                    href={TEAM_HELP_URL}
                     className="btn btn-outline"
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackCta('checkout', 'team_pricing', { plan: 'team_5' })}
+                    onClick={() => trackCta('team_help', 'support_team', { option: 'starter_help' })}
                   >
-                    Buy
+                    Ask
                   </a>
                 </div>
                 <div className="seat-option">
-                  <span className="seat-label">10 seats</span>
-                  <span className="seat-price">$130</span>
+                  <span className="seat-label">Rollout call</span>
+                  <span className="seat-price">Phone or email</span>
                   <a
-                    href={checkout.team10}
+                    href="tel:+14063967246"
                     className="btn btn-outline"
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackCta('checkout', 'team_pricing', { plan: 'team_10' })}
+                    onClick={() => trackCta('team_phone', 'support_team', { option: 'rollout_call' })}
                   >
-                    Buy
+                    Call
                   </a>
                 </div>
                 <div className="seat-option">
-                  <span className="seat-label">25 seats</span>
-                  <span className="seat-price">$300</span>
-                  <a
-                    href={checkout.team25}
+                  <span className="seat-label">Future packs</span>
+                  <span className="seat-price">Coming soon</span>
+                  <button
+                    type="button"
                     className="btn btn-outline"
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackCta('checkout', 'team_pricing', { plan: 'team_25' })}
+                    disabled
+                    style={{ opacity: 0.5, cursor: 'not-allowed' }}
                   >
-                    Buy
-                  </a>
+                    Soon
+                  </button>
                 </div>
               </div>
               <p className="enterprise-note">
-                Need 50+ seats? <a href="tel:+14063967246">Call 406-396-7246</a> for Enterprise pricing.
+                If you want Billy installed for a group without fighting the setup yourself, <a href="tel:+14063967246">call 406-396-7246</a> or email me.
               </p>
             </div>
           </div>
         </div>
 
-        {/* ENTERPRISE */}
         <div className="enterprise-cta">
           <div className="enterprise-inner">
             <div className="enterprise-info">
-              <span className="badge badge-enterprise">Enterprise</span>
-              <div className="pricing-name" style={{ marginTop: 12 }}>Enterprise</div>
-              <div className="pricing-price" style={{ fontSize: '1.6rem' }}>Custom pricing</div>
-              <div className="pricing-desc">Unlimited seats, self-hosted option, dedicated support.</div>
+              <span className="badge badge-enterprise">Coming Soon</span>
+              <div className="pricing-name" style={{ marginTop: 12 }}>Convenience bundles</div>
+              <div className="pricing-price" style={{ fontSize: '1.6rem' }}>Supporter packs</div>
+              <div className="pricing-desc">Future premium options will focus on convenience, automation, and specialty workflows, not locking away the core app.</div>
             </div>
             <ul className="pricing-features enterprise-features">
-              <li><span className="check">✓</span> Unlimited seats</li>
-              <li><span className="check">✓</span> Self-hosted option</li>
-              <li><span className="check">✓</span> Custom integrations</li>
-              <li><span className="check">✓</span> Dedicated support</li>
-              <li><span className="check">✓</span> SLA</li>
+              <li><span className="check">✓</span> Convenience scripts and installers</li>
+              <li><span className="check">✓</span> Workflow packs and curated setups</li>
+              <li><span className="check">✓</span> Optional specialty integrations</li>
+              <li><span className="check">✓</span> No ads and no crippleware</li>
             </ul>
             <div className="enterprise-ctas">
-              <a href="tel:+14063967246" className="btn btn-primary" onClick={() => trackCta('enterprise_phone', 'enterprise')}>📞 406-396-7246</a>
-              <a href="mailto:jd4rider@gmail.com" className="btn btn-outline" onClick={() => trackCta('enterprise_email', 'enterprise')}>✉ jd4rider@gmail.com</a>
+              <a href="tel:+14063967246" className="btn btn-primary" onClick={() => trackCta('support_phone', 'support_enterprise')}>📞 406-396-7246</a>
+              <a href={SETUP_HELP_URL} className="btn btn-outline" onClick={() => trackCta('support_email', 'support_enterprise')}>✉ Ask about setup</a>
             </div>
           </div>
         </div>
 
         <p className="pricing-promo-note">
-          Use code <strong>EARLYBIRD30</strong> at checkout for 30% off — 50 uses, expires April 30.
+          The goal is simple: keep Billy free, local-first, and honest. Pay for help or to support the mission, not because the app is artificially locked down.
         </p>
       </div>
     </section>
@@ -769,13 +749,24 @@ interface DevlogEntry { version: string; date: string; title: string; items: str
 
 const devlogEntries: DevlogEntry[] = [
   {
+    version: 'model',
+    date: 'March 2026',
+    title: 'Billy pivots to an open-core, support-first model',
+    items: [
+      'The local CLI now ships fully unlocked with no forced upgrade path',
+      'Custom OpenAI-compatible backends work in the open-core build',
+      'Support shifts toward setup help, sponsorship, and future convenience bundles',
+      'Billy stays ad-free, local-first, and usable without a purchase',
+    ],
+  },
+  {
     version: 'site',
     date: 'March 2026',
     title: 'Custom domains live: billysh.online, docs, and blog',
     items: [
       'Main site now lives at billysh.online instead of a GitHub Pages path',
       'Docs moved to docs.billysh.online and the blog moved to blog.billysh.online',
-      'Repo homepage links, in-app upgrade prompts, and README URLs updated to the new domains',
+      'Repo homepage links, in-app support prompts, and README URLs updated to the new domains',
       'GitHub Pages HTTPS rollout is enabled per-host as certificates become available',
     ],
   },
@@ -784,37 +775,12 @@ const devlogEntries: DevlogEntry[] = [
     date: 'March 2026',
     title: 'Custom endpoints & multi-backend support',
     items: [
-      'Pro+ users can now point Billy at any OpenAI-compatible endpoint — Groq, OpenRouter, LM Studio, your own server',
+      'Billy can now point at any OpenAI-compatible endpoint — Groq, OpenRouter, LM Studio, your own server',
       'New backend config: set backend.type = "custom", backend.url, backend.model, backend.api_key in config.toml',
       'Environment variable overrides: BILLY_BACKEND_TYPE, BILLY_BACKEND_URL, BILLY_BACKEND_MODEL, BILLY_API_KEY',
       '/backend command shows active backend, model, and config file path',
       '/backend reload — hot-reload backend settings without restarting Billy',
       'Ollama auto-launch skipped when pointing at a remote host',
-      'License gate enforced in the factory — free tier stays local-only',
-    ],
-  },
-  {
-    version: 'v0.1.7-alpha',
-    date: 'March 2026',
-    title: 'Licensing polish & UX improvements',
-    items: [
-      'Polished /activate, /deactivate, and /license display text — clearer prompts and status messages',
-      'One-shot mode respects license tier limits consistently with TUI mode',
-      'README rewrite — full command reference, configuration guide, environment variables, and roadmap',
-      'Variant ID map updated for both test and live LemonSqueezy products',
-    ],
-  },
-  {
-    version: 'v0.1.6-alpha',
-    date: 'March 2026',
-    title: 'LemonSqueezy native activation & /deactivate',
-    items: [
-      'Migrated from custom Ed25519 keys to LemonSqueezy License Keys API — phone-home activation with seat enforcement',
-      'Pro license: 2 activations (home + work machine); Premium: 3 activations',
-      'New /deactivate command — frees your seat so you can move to another machine',
-      'Upgrade path: activating a new key (e.g. Pro → Premium) auto-deactivates the old seat',
-      'Background re-validation every 7 days keeps licenses current without interrupting work',
-      'Activation stored encrypted in SQLite — no plaintext keys on disk',
     ],
   },
   {
@@ -839,8 +805,7 @@ const devlogEntries: DevlogEntry[] = [
       'Memory system — natural language detection + system prompt injection',
       'Agentic mode — shell command detection with permission prompts',
       'Slash commands: /suggest, /explain, /cd, /ls, /git, /compact, /session',
-      'License system — Ed25519 keys, offline validation, 5 tiers',
-      'Homebrew tap + Scoop bucket + .deb/.rpm/.apk packages',
+      'Cross-platform packaging via Homebrew, Scoop, and Linux packages',
     ],
   },
   {
@@ -913,8 +878,8 @@ const proofItems: ProofItem[] = [
   },
   {
     label: 'Ownership',
-    title: 'Open source code and secure checkout are live',
-    detail: 'You can inspect the source on GitHub and upgrade through the live checkout at shop.billysh.online today.',
+    title: 'Open source code and public support links are live',
+    detail: 'You can inspect the source on GitHub and support Billy through public sponsor links without hiding the tool behind a paywall.',
     href: GITHUB_URL,
     cta: 'Inspect the code',
     target: 'github',
@@ -929,7 +894,7 @@ function ProofSection() {
       <div className="container" style={{ textAlign: 'center' }}>
         <div className="section-label">Proof</div>
         <h2>Real proof, not placeholder hype</h2>
-        <p className="section-sub">Billy is already shipping in public with live installs, public docs, and a real checkout.</p>
+        <p className="section-sub">Billy is already shipping in public with live installs, public docs, and a support-first model.</p>
         <FancyCarousel
           items={proofItems}
           variant="proof"
@@ -1078,7 +1043,7 @@ function NavHamburger({ docsUrl, githubUrl }: { docsUrl: string; githubUrl: stri
         <ul className="nav-links">
           <li><a href="#features">Features</a></li>
           <li><a href="#install">Install</a></li>
-          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#support">Support</a></li>
           <li><a href="#blog">Blog</a></li>
           <li><a href="#devlog">Devlog</a></li>
           <li><a href={docsUrl} target="_blank" rel="noreferrer" onClick={() => trackCta('docs', 'nav_desktop')}>Docs</a></li>
@@ -1093,7 +1058,7 @@ function NavHamburger({ docsUrl, githubUrl }: { docsUrl: string; githubUrl: stri
       <div className={`nav-mobile${open ? ' open' : ''}`}>
         <a href="#features" onClick={close}>Features</a>
         <a href="#install" onClick={close}>Install</a>
-        <a href="#pricing" onClick={close}>Pricing</a>
+        <a href="#support" onClick={close}>Support</a>
         <a href="#blog" onClick={close}>Blog</a>
         <a href="#devlog" onClick={close}>Devlog</a>
         <a href={docsUrl} target="_blank" rel="noreferrer" onClick={() => { trackCta('docs', 'nav_mobile'); close(); }}>Docs</a>
@@ -1106,11 +1071,6 @@ function NavHamburger({ docsUrl, githubUrl }: { docsUrl: string; githubUrl: stri
 function App() {
   return (
     <div>
-      {TEST_MODE && (
-        <div style={{ background: '#f59e0b', color: '#000', textAlign: 'center', padding: '6px 12px', fontSize: 13, fontWeight: 600 }}>
-          ⚠️ TEST MODE — checkout buttons use LemonSqueezy test-mode URLs. Use a test card (e.g. 4242 4242 4242 4242).
-        </div>
-      )}
       {/* NAV */}
       <NavHamburger docsUrl={DOCS_URL} githubUrl={GITHUB_URL} />
 
@@ -1127,17 +1087,17 @@ function App() {
           </p>
           <div className="hero-ctas">
             <a href="#install" className="btn btn-primary" style={{ fontSize: '1rem', padding: '12px 28px' }} onClick={() => trackCta('download_free', 'hero')}>
-              ⬇ Download Free
+              ⬇ Download Billy
             </a>
-            <a href="#pricing" className="btn btn-outline" style={{ fontSize: '1rem', padding: '12px 28px' }} onClick={() => trackCta('buy_pro', 'hero')}>
-              Buy Pro — $19
+            <a href="#support" className="btn btn-outline" style={{ fontSize: '1rem', padding: '12px 28px' }} onClick={() => trackCta('support_billy', 'hero')}>
+              Support Billy
             </a>
             <a href={GITHUB_URL} className="btn btn-outline" target="_blank" rel="noreferrer" style={{ fontSize: '1rem', padding: '12px 28px' }} onClick={() => trackCta('github', 'hero')}>
               ★ Star on GitHub
             </a>
           </div>
           <div className="hero-sub">
-            Free forever · One-time Pro upgrade · Open source
+            Free core · Local-first · Open source · Community-supported
           </div>
           <TerminalDemo />
         </div>
@@ -1158,8 +1118,8 @@ function App() {
       {/* INSTALL */}
       <InstallSection />
 
-      {/* PRICING */}
-      <PricingSection />
+      {/* SUPPORT */}
+      <SupportSection />
 
       {/* PROOF */}
       <ProofSection />
@@ -1197,7 +1157,7 @@ function App() {
             <a href="#community">Community</a>
             <a href="#blog">Blog</a>
             <a href="#devlog">Devlog</a>
-            <a href="#pricing">Pricing</a>
+            <a href="#support">Support</a>
           </div>
           <div className="footer-support">
             If Billy helps your workflow →{' '}
