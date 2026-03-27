@@ -6,6 +6,8 @@ const SUBSCRIBE_URL = 'https://billy-worker.billysh.workers.dev/subscribe';
 const DOCS_URL = 'https://docs.billysh.online';
 const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
 const INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-app/main/scripts/install.sh';
+const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/jd4rider';
+const GITHUB_SPONSORS_URL = 'https://github.com/sponsors/jd4rider';
 
 // ── Checkout URLs ────────────────────────────────────────────────────────────
 // Add ?test=1 to the page URL to switch all checkout buttons to LS test-mode.
@@ -1196,6 +1198,26 @@ function App() {
             <a href="#blog">Blog</a>
             <a href="#devlog">Devlog</a>
             <a href="#pricing">Pricing</a>
+          </div>
+          <div className="footer-support">
+            If Billy helps your workflow →{' '}
+            <a
+              href={BUY_ME_A_COFFEE_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackCta('buy_me_a_coffee', 'footer_support')}
+            >
+              ☕ Buy me a coffee
+            </a>{' '}
+            ·{' '}
+            <a
+              href={GITHUB_SPONSORS_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackCta('github_sponsors', 'footer_support')}
+            >
+              ❤️ GitHub Sponsors
+            </a>
           </div>
         </div>
       </footer>
