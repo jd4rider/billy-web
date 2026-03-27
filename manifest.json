@@ -1,7 +1,7 @@
 {
   "short_name": "Billy",
   "name": "Billy — Local AI Assistant",
-  "description": "Local AI coding assistant for the terminal powered by Ollama. No subscription required.",
+  "description": "Local AI coding assistant for the terminal powered by Ollama. Open-core, local-first, and ad-free.",
   "icons": [
     {
       "src": "favicon.ico",
