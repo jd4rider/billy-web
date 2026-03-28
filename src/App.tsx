@@ -5,7 +5,14 @@ const SUBSCRIBE_URL = 'https://billy-worker.billysh.workers.dev/subscribe';
 
 const DOCS_URL = 'https://docs.billysh.online';
 const GITHUB_URL = 'https://github.com/jd4rider/billy-app';
-const INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-app/main/scripts/install.sh';
+const CLI_INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-app/main/scripts/install.sh';
+const DESKTOP_INSTALL_URL = 'https://raw.githubusercontent.com/jd4rider/billy-wails/main/scripts/install.sh';
+const CLI_RELEASES_URL = 'https://github.com/jd4rider/billy-app/releases';
+const DESKTOP_RELEASES_URL = 'https://github.com/jd4rider/billy-wails/releases';
+const RELEASE_TAG = 'v0.2.0';
+const DESKTOP_MAC_PKG_URL = `https://github.com/jd4rider/billy-wails/releases/download/${RELEASE_TAG}/billy-macos-universal.pkg`;
+const DESKTOP_MAC_ARCHIVE_URL = `https://github.com/jd4rider/billy-wails/releases/download/${RELEASE_TAG}/billy-macos-universal.tar.gz`;
+const DESKTOP_WINDOWS_ZIP_URL = `https://github.com/jd4rider/billy-wails/releases/download/${RELEASE_TAG}/billy-windows-amd64-bundle.zip`;
 const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/jd4rider';
 const GITHUB_SPONSORS_URL = 'https://github.com/sponsors/jd4rider';
 const SETUP_HELP_URL = 'mailto:jd4rider@gmail.com?subject=Billy%20Setup%20Help';
@@ -150,11 +157,11 @@ const features: Feature[] = [
 ];
 
 const installCommands: Record<string, string> = {
-  'macOS / Linux (Slim)':  `curl -fsSL ${INSTALL_URL} | bash`,
-  'Full (Ollama bundled)': `curl -fsSL ${INSTALL_URL} | bash -s -- --full`,
-  'Homebrew':              `brew tap jd4rider/billy && brew install billy`,
-  'Scoop (Windows)':       `scoop bucket add billy https://github.com/jd4rider/scoop-billy\nscoop install billy`,
-  'Build from source':     `git clone ${GITHUB_URL}.git\ncd billy-app && go build -o billy ./cmd/billy`,
+  'Desktop (macOS / Linux)': `curl -fsSL ${DESKTOP_INSTALL_URL} | bash`,
+  'CLI (macOS / Linux)':     `curl -fsSL ${CLI_INSTALL_URL} | bash`,
+  'Homebrew (CLI)':          `brew tap jd4rider/billy && brew install billy`,
+  'Scoop (Windows CLI)':     `scoop bucket add billy https://github.com/jd4rider/scoop-billy\nscoop install billy`,
+  'Build from source':       `git clone ${GITHUB_URL}.git\ncd billy-app && go build -o billy ./cmd/billy`,
 };
 
 function FeatureModal({ feature, onClose }: { feature: Feature; onClose: () => void }) {
@@ -229,7 +236,7 @@ function TerminalDemo() {
         <span className="term-title">billy</span>
       </div>
       <div className="terminal-body">
-        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.1.8 · qwen2.5-coder · FREE</span></div>
+        <div><span className="t-billy">Billy</span> <span className="t-dim">v0.2.0 · qwen2.5-coder · OPEN</span></div>
         <div className="t-dim">─────────────────────────────────────</div>
         <div><span className="t-prompt">you › </span><span className="t-cmd">Remember that I'm building a SaaS in Go</span></div>
         <div><span className="t-billy">Billy › </span><span className="t-res">Got it! I'll remember that you're building a SaaS product in Go. 🐐</span></div>
@@ -262,8 +269,7 @@ function InstallSection() {
         <div className="section-label">Install</div>
         <h2>Get Billy in 60 seconds</h2>
         <p className="section-sub" style={{ marginBottom: 32 }}>
-          Requires <a href="https://ollama.com" target="_blank" rel="noreferrer" onClick={() => trackCta('ollama', 'install')}>Ollama</a> running locally,
-          or use the Full build which bundles Ollama automatically.
+          Use the CLI if you want Billy in your terminal first. Use Billy Desktop if you want the GUI app bundled with the same local `billy` CLI.
         </p>
         <div className="install-tabs">
           {tabs.map(t => (
@@ -283,6 +289,16 @@ function InstallSection() {
           <code style={{ whiteSpace: 'pre' }}>{installCommands[active]}</code>
           <button className="copy-btn" onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
         </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginTop: 20 }}>
+          <a href={DESKTOP_MAC_PKG_URL} className="btn btn-outline" target="_blank" rel="noreferrer" onClick={() => trackCta('desktop_pkg', 'install')}>macOS .pkg</a>
+          <a href={DESKTOP_MAC_ARCHIVE_URL} className="btn btn-outline" target="_blank" rel="noreferrer" onClick={() => trackCta('desktop_macos_archive', 'install')}>macOS .tar.gz</a>
+          <a href={DESKTOP_WINDOWS_ZIP_URL} className="btn btn-outline" target="_blank" rel="noreferrer" onClick={() => trackCta('desktop_windows_zip', 'install')}>Windows .zip</a>
+          <a href={CLI_RELEASES_URL} className="btn btn-outline" target="_blank" rel="noreferrer" onClick={() => trackCta('cli_releases', 'install')}>CLI releases</a>
+          <a href={DESKTOP_RELEASES_URL} className="btn btn-outline" target="_blank" rel="noreferrer" onClick={() => trackCta('desktop_releases', 'install')}>Desktop releases</a>
+        </div>
+        <p className="section-sub" style={{ marginTop: 18 }}>
+          Linux CLI packages live on the CLI releases page. Linux desktop bundles use the same Wails app path and are being wired into native packages next.
+        </p>
       </div>
     </section>
   );
@@ -749,6 +765,17 @@ interface DevlogEntry { version: string; date: string; title: string; items: str
 
 const devlogEntries: DevlogEntry[] = [
   {
+    version: 'v0.2.0',
+    date: 'March 2026',
+    title: 'Open-core Billy + first desktop bundle pipeline',
+    items: [
+      'Billy now ships open by default with no forced upgrade path',
+      'Desktop bundles now package Billy.app or Billy.exe alongside the billy CLI',
+      'macOS pkg/tar.gz and Windows zip release paths are wired up',
+      'CLI install, desktop install, and release downloads now live side by side',
+    ],
+  },
+  {
     version: 'model',
     date: 'March 2026',
     title: 'Billy pivots to an open-core, support-first model',
@@ -849,8 +876,8 @@ interface ProofItem {
 const proofItems: ProofItem[] = [
   {
     label: 'Shipping',
-    title: 'Five prerelease builds shipped in three days',
-    detail: 'Billy shipped public releases from v0.1.4-alpha through v0.1.8-alpha between March 17 and March 19, 2026.',
+    title: 'Billy is shipping again with a clean open-core release line',
+    detail: 'The new Billy release line rolls the open-core CLI and the desktop bundle story into one install surface instead of splitting the product across old upgrade tiers.',
     href: `${GITHUB_URL}/releases`,
     cta: 'View releases',
     target: 'releases',
